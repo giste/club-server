@@ -30,7 +30,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the found club.
 	 * @throws ClubNotFoundException If there is no club with this identifier.
 	 */
-	ClubDto findById(long id) throws ClubNotFoundException;
+	ClubDto findById(Long id) throws ClubNotFoundException;
 
 	/**
 	 * Retrieves all clubs.
@@ -55,7 +55,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the deleted club.
 	 * @throws ClubNotFoundException If the club to delete does not exist.
 	 */
-	ClubDto deleteById(long id) throws ClubNotFoundException;
+	ClubDto deleteById(Long id) throws ClubNotFoundException;
 	
 	ClubDto changeState(long id, boolean active) throws ClubNotFoundException;
 }
