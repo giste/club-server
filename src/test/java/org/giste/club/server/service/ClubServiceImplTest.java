@@ -149,11 +149,11 @@ public class ClubServiceImplTest {
 		
 		ClubDto readClub = clubService.deleteById(club1.getId());
 		
-		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
 		verify(clubRepository).getOne(club1.getId());
+		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
 		verify(clubRepository).delete(clubCaptor.capture());
-		
 		verifyNoMoreInteractions(clubRepository);
+
 		assertThat(readClub.getId(), is(club1.getId()));
 		assertThat(readClub.getName(), is(club1.getName()));
 		assertThat(readClub.getAcronym(), is(club1.getAcronym()));
@@ -166,17 +166,53 @@ public class ClubServiceImplTest {
 		assertThat(capturedClub.isEnabled(), is(club1.isEnabled()));
 	}
 	
-	// @Test
-	// public void testDelete() {
-	// clubRepository.delete(1L);
-	// verify(clubRepository).delete(1L);
-	// }
-	//
-	// @Test(expected = ClubNotFoundException.class)
-	// public void testDeleteNonExistent() {
-	// //when(clubRepository.delete(2L)).thenThrow(ClubNotFoundException.class);
-	// doThrow(new ClubNotFoundException()).when(clubRepository).delete(2L);
-	// clubRepository.delete(2L);
-	// }
+	@Test
+	public void enableIsOk() {
+		final Club club1 = new Club(1L, "Club 1", "CLUB1", false);
+		final Club enabledClub1 = new Club(1L, "Club 1", "CLUB1", true);
+		when(clubRepository.getOne(club1.getId())).thenReturn(club1);
+		when(clubRepository.save(any(Club.class))).thenReturn(enabledClub1);
+		
+		ClubDto readClub = clubService.enable(club1.getId());
+		
+		verify(clubRepository).getOne(club1.getId());
+		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
+		verify(clubRepository).save(clubCaptor.capture());
+		
+		assertThat(readClub.getId(), is(enabledClub1.getId()));
+		assertThat(readClub.getName(), is(enabledClub1.getName()));
+		assertThat(readClub.getAcronym(), is(enabledClub1.getAcronym()));
+		assertThat(readClub.isEnabled(), is(enabledClub1.isEnabled()));
 
+		Club capturedClub = clubCaptor.getValue();
+		assertThat(capturedClub.getId(), is(club1.getId()));
+		assertThat(capturedClub.getName(), is(club1.getName()));
+		assertThat(capturedClub.getAcronym(), is(club1.getAcronym()));
+		assertThat(capturedClub.isEnabled(), is(club1.isEnabled()));
+	}
+
+	@Test
+	public void disableIsOk() {
+		final Club club1 = new Club(1L, "Club 1", "CLUB1", true);
+		final Club disabledClub1 = new Club(1L, "Club 1", "CLUB1", false);
+		when(clubRepository.getOne(club1.getId())).thenReturn(club1);
+		when(clubRepository.save(any(Club.class))).thenReturn(disabledClub1);
+		
+		ClubDto readClub = clubService.disable(club1.getId());
+		
+		verify(clubRepository).getOne(club1.getId());
+		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
+		verify(clubRepository).save(clubCaptor.capture());
+		
+		assertThat(readClub.getId(), is(disabledClub1.getId()));
+		assertThat(readClub.getName(), is(disabledClub1.getName()));
+		assertThat(readClub.getAcronym(), is(disabledClub1.getAcronym()));
+		assertThat(readClub.isEnabled(), is(disabledClub1.isEnabled()));
+
+		Club capturedClub = clubCaptor.getValue();
+		assertThat(capturedClub.getId(), is(club1.getId()));
+		assertThat(capturedClub.getName(), is(club1.getName()));
+		assertThat(capturedClub.getAcronym(), is(club1.getAcronym()));
+		assertThat(capturedClub.isEnabled(), is(club1.isEnabled()));
+	}
 }

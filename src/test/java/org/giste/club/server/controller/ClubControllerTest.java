@@ -43,6 +43,8 @@ public class ClubControllerTest {
 	// URIs.
 	private static final String PATH_CLUBS = "/clubs";
 	private static final String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";
+	private static final String PATH_CLUBS_ID_ENABLE = PATH_CLUBS_ID + "/enable";
+	private static final String PATH_CLUBS_ID_DISABLE = PATH_CLUBS_ID + "/disable";
 
 	// Error codes.
 	private final static String ERROR_DUPLICATED_ACRONYM = "10001001";
@@ -285,14 +287,13 @@ public class ClubControllerTest {
 	}
 
 	@Test
-	public void updateOnlyActive() throws Exception {
+	public void enableIsValid() throws Exception {
 		final ClubDto club = new ClubDto(1L, "Club 1", "CLUB1", true);
 
-		when(clubService.changeState(club.getId(), true)).thenReturn(club);
+		when(clubService.enable(club.getId())).thenReturn(club);
 		
-		mvc.perform(put(PATH_CLUBS_ID, club.getId())
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.param("active", "true"))
+		mvc.perform(put(PATH_CLUBS_ID_ENABLE, club.getId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.id", is(club.getId().intValue())))
@@ -300,7 +301,56 @@ public class ClubControllerTest {
 				.andExpect(jsonPath("$.acronym", is(club.getAcronym())))
 				.andExpect(jsonPath("$.enabled", is(club.isEnabled())));
 		
-		verify(clubService).changeState(club.getId(), club.isEnabled());
+		verify(clubService).enable(club.getId());
+		verifyNoMoreInteractions(clubService);
+	}
+
+	@Test
+	public void enableClubNotFound() throws Exception {
+		final Long id = new Long(1);
+
+		when(clubService.enable(id)).thenThrow(new ClubNotFoundException(id));
+
+		mvc.perform(put(PATH_CLUBS_ID_ENABLE, id)
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isNotFound())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+		verify(clubService).enable(id);
+		verifyNoMoreInteractions(clubService);
+	}
+
+	@Test
+	public void disableIsValid() throws Exception {
+		final ClubDto club = new ClubDto(1L, "Club 1", "CLUB1", true);
+
+		when(clubService.disable(club.getId())).thenReturn(club);
+		
+		mvc.perform(put(PATH_CLUBS_ID_DISABLE, club.getId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(jsonPath("$.id", is(club.getId().intValue())))
+				.andExpect(jsonPath("$.name", is(club.getName())))
+				.andExpect(jsonPath("$.acronym", is(club.getAcronym())))
+				.andExpect(jsonPath("$.enabled", is(club.isEnabled())));
+		
+		verify(clubService).disable(club.getId());
+		verifyNoMoreInteractions(clubService);
+	}
+
+	@Test
+	public void disableClubNotFound() throws Exception {
+		final Long id = new Long(1);
+
+		when(clubService.disable(id)).thenThrow(new ClubNotFoundException(id));
+
+		mvc.perform(put(PATH_CLUBS_ID_DISABLE, id)
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isNotFound())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+		verify(clubService).disable(id);
 		verifyNoMoreInteractions(clubService);
 	}
 }

@@ -57,5 +57,21 @@ public interface ClubService {
 	 */
 	ClubDto deleteById(Long id) throws ClubNotFoundException;
 	
-	ClubDto changeState(long id, boolean active) throws ClubNotFoundException;
+	/**
+	 * Enables one club in the application.
+	 * 
+	 * @param id Identifier of the club to be enabled.
+	 * @return {@link ClubDto} with the values of the enabled club.
+	 * @throws ClubNotFoundException If the club to enable does not exist.
+	 */
+	ClubDto enable(Long id) throws ClubNotFoundException;
+
+	/**
+	 * Disables one club in the application.
+	 * 
+	 * @param id Identifier of the club to be disabled.
+	 * @return {@link ClubDto} with the values of the disabled club.
+	 * @throws ClubNotFoundException If the club to disable does not exist.
+	 */
+	ClubDto disable(Long id) throws ClubNotFoundException;
 }

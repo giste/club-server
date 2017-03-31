@@ -22,17 +22,17 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public ClubDto create(ClubDto club) throws DuplicatedClubAcronymException {
 		Club newClub = new Club(club.getId(), club.getName(), club.getAcronym(), club.isEnabled());
-		
+
 		Club savedClub = clubRepository.save(newClub);
-		
+
 		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
 	}
 
 	@Override
 	public ClubDto findById(Long id) throws ClubNotFoundException {
-			Club club = getOneSafe(id);
+		Club club = getOneSafe(id);
 
-			return new ClubDto(club.getId(), club.getName(), club.getAcronym(), club.isEnabled());
+		return new ClubDto(club.getId(), club.getName(), club.getAcronym(), club.isEnabled());
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ClubServiceImpl implements ClubService {
 		readClub.setAcronym(club.getAcronym());
 		readClub.setEnabled(club.isEnabled());
 		Club savedClub = clubRepository.save(readClub);
-		
+
 		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
 	}
 
@@ -59,16 +59,34 @@ public class ClubServiceImpl implements ClubService {
 	public ClubDto deleteById(Long id) throws ClubNotFoundException {
 		// Find club to delete.
 		Club readClub = getOneSafe(id);
-		
+
 		clubRepository.delete(readClub);
-		
+
 		return new ClubDto(readClub.getId(), readClub.getName(), readClub.getAcronym(), readClub.isEnabled());
 	}
 
 	@Override
-	public ClubDto changeState(long id, boolean active) throws ClubNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public ClubDto enable(Long id) throws ClubNotFoundException {
+		// Find club to enable.
+		Club readClub = getOneSafe(id);
+
+		// Enable club.
+		readClub.setEnabled(true);
+		Club savedClub = clubRepository.save(readClub);
+
+		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
+	}
+
+	@Override
+	public ClubDto disable(Long id) throws ClubNotFoundException {
+		// Find club to disable.
+		Club readClub = getOneSafe(id);
+
+		// Disable club.
+		readClub.setEnabled(false);
+		Club savedClub = clubRepository.save(readClub);
+
+		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
 	}
 
 	private Club getOneSafe(Long id) {
