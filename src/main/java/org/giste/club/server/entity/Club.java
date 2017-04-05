@@ -21,6 +21,10 @@ public class Club implements Serializable {
 	private String acronym;
 
 	private boolean enabled;
+	
+	public Club() {
+		
+	}
 
 	public Club(long id, String name, String acronym, boolean enabled) {
 		this.id = id;
