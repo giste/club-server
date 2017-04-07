@@ -69,11 +69,11 @@ public class ClubServiceImplTest {
 	@Test
 	public void findByIdIsValid() {
 		final Club club1 = new Club(1L, "Club 1", "CLUB1", false);
-		when(clubRepository.getOne(1L)).thenReturn(club1);
+		when(clubRepository.findOne(1L)).thenReturn(club1);
 
 		ClubDto clubDto = clubService.findById(club1.getId());
 
-		verify(clubRepository).getOne(1L);
+		verify(clubRepository).findOne(1L);
 		verifyNoMoreInteractions(clubRepository);
 		assertThat(clubDto.getId().longValue(), is(club1.getId().longValue()));
 		assertThat(clubDto.getName(), is(club1.getName()));
@@ -121,13 +121,13 @@ public class ClubServiceImplTest {
 	public void updateIsOk() {
 		final Club club1 = new Club(1L, "Club 1", "CLUB1", false);
 		final ClubDto clubDto1 = new ClubDto(1L, "Club 1", "CLUB1", true);
-		when(clubRepository.getOne(clubDto1.getId())).thenReturn(club1);
+		when(clubRepository.findOne(clubDto1.getId())).thenReturn(club1);
 		when(clubRepository.save(any(Club.class))).thenReturn(club1);
 		
 		ClubDto readClub = clubService.update(clubDto1);
 		
 		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
-		verify(clubRepository).getOne(clubDto1.getId());
+		verify(clubRepository).findOne(clubDto1.getId());
 		verify(clubRepository).save(clubCaptor.capture());
 		verifyNoMoreInteractions(clubRepository);
 		assertThat(readClub.getId(), is(club1.getId()));
@@ -145,11 +145,11 @@ public class ClubServiceImplTest {
 	@Test
 	public void deleteByIdIsOk() {
 		final Club club1 = new Club(1L, "Club 1", "CLUB1", false);
-		when(clubRepository.getOne(club1.getId())).thenReturn(club1);
+		when(clubRepository.findOne(club1.getId())).thenReturn(club1);
 		
 		ClubDto readClub = clubService.deleteById(club1.getId());
 		
-		verify(clubRepository).getOne(club1.getId());
+		verify(clubRepository).findOne(club1.getId());
 		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
 		verify(clubRepository).delete(clubCaptor.capture());
 		verifyNoMoreInteractions(clubRepository);
@@ -170,12 +170,12 @@ public class ClubServiceImplTest {
 	public void enableIsOk() {
 		final Club club1 = new Club(1L, "Club 1", "CLUB1", false);
 		final Club enabledClub1 = new Club(1L, "Club 1", "CLUB1", true);
-		when(clubRepository.getOne(club1.getId())).thenReturn(club1);
+		when(clubRepository.findOne(club1.getId())).thenReturn(club1);
 		when(clubRepository.save(any(Club.class))).thenReturn(enabledClub1);
 		
 		ClubDto readClub = clubService.enable(club1.getId());
 		
-		verify(clubRepository).getOne(club1.getId());
+		verify(clubRepository).findOne(club1.getId());
 		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
 		verify(clubRepository).save(clubCaptor.capture());
 		
@@ -195,12 +195,12 @@ public class ClubServiceImplTest {
 	public void disableIsOk() {
 		final Club club1 = new Club(1L, "Club 1", "CLUB1", true);
 		final Club disabledClub1 = new Club(1L, "Club 1", "CLUB1", false);
-		when(clubRepository.getOne(club1.getId())).thenReturn(club1);
+		when(clubRepository.findOne(club1.getId())).thenReturn(club1);
 		when(clubRepository.save(any(Club.class))).thenReturn(disabledClub1);
 		
 		ClubDto readClub = clubService.disable(club1.getId());
 		
-		verify(clubRepository).getOne(club1.getId());
+		verify(clubRepository).findOne(club1.getId());
 		ArgumentCaptor<Club> clubCaptor = ArgumentCaptor.forClass(Club.class);
 		verify(clubRepository).save(clubCaptor.capture());
 		

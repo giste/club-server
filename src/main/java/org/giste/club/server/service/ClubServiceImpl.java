@@ -2,6 +2,7 @@ package org.giste.club.server.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.entity.Club;
@@ -37,7 +38,7 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public List<ClubDto> findAll() {
-		return clubRepository.findAll().stream()
+		return StreamSupport.stream(clubRepository.findAll().spliterator(), false)
 				.map(entity -> new ClubDto(entity.getId(), entity.getName(), entity.getAcronym(), entity.isEnabled()))
 				.collect(Collectors.toList());
 	}
@@ -90,7 +91,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	private Club getOneSafe(Long id) {
-		Club club = clubRepository.getOne(id);
+		Club club = clubRepository.findOne(id);
 		if (club == null) {
 			throw new ClubNotFoundException(id);
 		} else {
