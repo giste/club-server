@@ -2,6 +2,7 @@ package org.giste.club.server.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Club implements Serializable {
 
 	private String name;
 
+	@Column(unique=true)
 	private String acronym;
 
 	private boolean enabled;
