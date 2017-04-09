@@ -9,10 +9,15 @@ import org.giste.club.server.entity.Club;
 import org.giste.club.server.repository.ClubRepository;
 import org.giste.club.server.service.exception.ClubNotFoundException;
 import org.giste.club.server.service.exception.DuplicatedClubAcronymException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClubServiceImpl implements ClubService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ClubService.class);
 
 	private ClubRepository clubRepository;
 
@@ -24,13 +29,19 @@ public class ClubServiceImpl implements ClubService {
 	public ClubDto create(ClubDto club) throws DuplicatedClubAcronymException {
 		Club newClub = new Club(club.getId(), club.getName(), club.getAcronym(), club.isEnabled());
 
-		Club savedClub = clubRepository.save(newClub);
+		try {
+			Club savedClub = clubRepository.save(newClub);
 
-		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
+			return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
+		} catch (DataIntegrityViolationException e) {
+			LOGGER.debug("Catched DataIntegrityViolationException {}", e);
+
+			throw new DuplicatedClubAcronymException(club.getAcronym());
+		}
 	}
 
 	@Override
-	public ClubDto findById(Long id) throws ClubNotFoundException {
+	public ClubDto findById(Long id) {
 		Club club = getOneSafe(id);
 
 		return new ClubDto(club.getId(), club.getName(), club.getAcronym(), club.isEnabled());
@@ -44,20 +55,27 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public ClubDto update(ClubDto club) throws ClubNotFoundException {
+	public ClubDto update(ClubDto club) throws DuplicatedClubAcronymException {
 		// Find club to update.
 		Club readClub = getOneSafe(club.getId());
 		// Update club.
 		readClub.setName(club.getName());
 		readClub.setAcronym(club.getAcronym());
 		readClub.setEnabled(club.isEnabled());
-		Club savedClub = clubRepository.save(readClub);
+		try {
+			Club savedClub = clubRepository.save(readClub);
 
-		return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
+			return new ClubDto(savedClub.getId(), savedClub.getName(), savedClub.getAcronym(), savedClub.isEnabled());
+		} catch (DataIntegrityViolationException e) {
+			LOGGER.debug("Catched DataIntegrityViolationException {}", e);
+
+			throw new DuplicatedClubAcronymException(club.getAcronym());
+		}
+
 	}
 
 	@Override
-	public ClubDto deleteById(Long id) throws ClubNotFoundException {
+	public ClubDto deleteById(Long id) {
 		// Find club to delete.
 		Club readClub = getOneSafe(id);
 
@@ -67,7 +85,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public ClubDto enable(Long id) throws ClubNotFoundException {
+	public ClubDto enable(Long id) {
 		// Find club to enable.
 		Club readClub = getOneSafe(id);
 
@@ -79,7 +97,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public ClubDto disable(Long id) throws ClubNotFoundException {
+	public ClubDto disable(Long id) {
 		// Find club to disable.
 		Club readClub = getOneSafe(id);
 

@@ -14,7 +14,7 @@ import org.giste.club.server.service.exception.DuplicatedClubAcronymException;
 public interface ClubService {
 
 	/**
-	 * Creates a new club. A club has a name and an acronym.
+	 * Creates a new club.
 	 * 
 	 * @param club {@link ClubDto} with the values for the new club.
 	 * @return {@link ClubDto} with the values of the created club.
@@ -30,7 +30,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the found club.
 	 * @throws ClubNotFoundException If there is no club with this identifier.
 	 */
-	ClubDto findById(Long id) throws ClubNotFoundException;
+	ClubDto findById(Long id);
 
 	/**
 	 * Retrieves all clubs.
@@ -46,7 +46,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the updated values of the club.
 	 * @throws ClubNotFoundException If the club to update does not exist.
 	 */
-	ClubDto update(ClubDto club) throws ClubNotFoundException;
+	ClubDto update(ClubDto club) throws DuplicatedClubAcronymException;
 
 	/**
 	 * Deletes one club.
@@ -55,7 +55,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the deleted club.
 	 * @throws ClubNotFoundException If the club to delete does not exist.
 	 */
-	ClubDto deleteById(Long id) throws ClubNotFoundException;
+	ClubDto deleteById(Long id);
 	
 	/**
 	 * Enables one club in the application.
@@ -64,7 +64,7 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the enabled club.
 	 * @throws ClubNotFoundException If the club to enable does not exist.
 	 */
-	ClubDto enable(Long id) throws ClubNotFoundException;
+	ClubDto enable(Long id);
 
 	/**
 	 * Disables one club in the application.
@@ -73,5 +73,5 @@ public interface ClubService {
 	 * @return {@link ClubDto} with the values of the disabled club.
 	 * @throws ClubNotFoundException If the club to disable does not exist.
 	 */
-	ClubDto disable(Long id) throws ClubNotFoundException;
+	ClubDto disable(Long id);
 }

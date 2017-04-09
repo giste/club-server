@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(ClubController.class)
 public class ClubControllerTest {
 	// URIs.
-	private static final String PATH_CLUBS = "/clubs";
+	private static final String PATH_CLUBS = "/rest/clubs";
 	private static final String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";
 	private static final String PATH_CLUBS_ID_ENABLE = PATH_CLUBS_ID + "/enable";
 	private static final String PATH_CLUBS_ID_DISABLE = PATH_CLUBS_ID + "/disable";

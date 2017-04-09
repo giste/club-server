@@ -85,9 +85,10 @@ public class ClubController {
 	 * @param id Identifier of the club to be updated.
 	 * @param club {@link ClubDto} with the values of the club to update.
 	 * @return {@link ClubDto} with the updated values of the club.
+	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping(value = "/{id}")
-	public ClubDto update(@PathVariable("id") Long id, @RequestBody @Valid final ClubDto club) {
+	public ClubDto update(@PathVariable("id") Long id, @RequestBody @Valid final ClubDto club) throws DuplicatedClubAcronymException, ClubNotFoundException {
 
 		// If club identifier is different, overwrite it.
 		if (id != club.getId()) {
@@ -103,9 +104,10 @@ public class ClubController {
 	 * 
 	 * @param id Identifier of the club to delete.
 	 * @return {@link ClubDto} with the values of the deleted club.
+	 * @throws ClubNotFoundException 
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ClubDto deleteById(@PathVariable("id") Long id) {
+	public ClubDto deleteById(@PathVariable("id") Long id) throws ClubNotFoundException {
 		return clubService.deleteById(id);
 	}
 	
@@ -114,9 +116,10 @@ public class ClubController {
 	 * 
 	 * @param id Identifier of the club to enable.
 	 * @return {@link ClubDto} with the values of the enabled club.
+	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping("/{id}/enable")
-	public ClubDto enable(@PathVariable("id") Long id) {
+	public ClubDto enable(@PathVariable("id") Long id) throws ClubNotFoundException {
 		return clubService.enable(id);
 	}
 
@@ -125,9 +128,10 @@ public class ClubController {
 	 * 
 	 * @param id Identifier of the club to disable.
 	 * @return {@link ClubDto} with the values of the disabled club.
+	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping("/{id}/disable")
-	public ClubDto disable(@PathVariable("id") Long id) {
+	public ClubDto disable(@PathVariable("id") Long id) throws ClubNotFoundException {
 		return clubService.disable(id);
 	}
 }
