@@ -10,15 +10,31 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Handles exceptions for club controller.
+ * 
+ * @author Giste
+ */
 @ControllerAdvice
 public class ClubExceptionHandler {
 
 	private LocaleMessage localeMessage;
 
+	/**
+	 * Creates a new handler.
+	 * 
+	 * @param localeMessage Message resolver.
+	 */
 	public ClubExceptionHandler(LocaleMessage localeMessage) {
 		this.localeMessage = localeMessage;
 	}
 
+	/**
+	 * Handles {@link ClubNotFoundException} and converts it in {@link RestErrorDto}.
+	 * 
+	 * @param e {@link ClubNotFoundException} to be handled.
+	 * @return {@link RestErrorDto} to be returned to Rest client.
+	 */
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(value = ClubNotFoundException.class)
 	@ResponseBody
@@ -31,7 +47,7 @@ public class ClubExceptionHandler {
 	 * created or updated and the selected acronym is in use by another club.
 	 * 
 	 * @param e {@link DuplicatedClubAcronymException} to be handled.
-	 * @return
+	 * @return {@link RestErrorDto} to be returned to Rest client.
 	 */
 	@ExceptionHandler(DuplicatedClubAcronymException.class)
 	@ResponseStatus(HttpStatus.CONFLICT)

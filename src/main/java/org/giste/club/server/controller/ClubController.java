@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest/clubs")
 public class ClubController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClubController.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	final private ClubService clubService;
 

@@ -8,6 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Entity for a club.
+ * 
+ * @author Giste
+ */
 @Entity
 public class Club implements Serializable {
 
@@ -28,6 +33,14 @@ public class Club implements Serializable {
 		
 	}
 
+	/**
+	 * Creates a new club.
+	 * 
+	 * @param id Identifier of this club.
+	 * @param name Name of this club. 
+	 * @param acronym Acronym of this club.
+	 * @param enabled Indicates if this club is enabled or disabled.
+	 */
 	public Club(long id, String name, String acronym, boolean enabled) {
 		this.id = id;
 		this.name = name;

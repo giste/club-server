@@ -14,10 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation for {@link ClubService} using CRUD repository.
+ * 
+ * @author Giste
+ */
 @Service
 public class ClubServiceImpl implements ClubService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClubService.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	private ClubRepository clubRepository;
 
