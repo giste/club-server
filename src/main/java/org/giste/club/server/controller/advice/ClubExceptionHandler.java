@@ -39,7 +39,13 @@ public class ClubExceptionHandler {
 	@ExceptionHandler(value = ClubNotFoundException.class)
 	@ResponseBody
 	public RestErrorDto handleClubNotFound(ClubNotFoundException e) {
-		return new RestErrorDto(HttpStatus.NOT_FOUND, "0", e.getLocalizedMessage(), e.getMessage());
+		final Long[] params = {e.getIdNotFound()};
+		final String code = localeMessage.getMessage("error.club.server.baseError")
+				+ localeMessage.getMessage("error.clubNotFound.code");
+		final String message = localeMessage.getMessage("error.clubNotFound.message", params);
+		final String developerInfo = localeMessage.getMessage("error.clubNotFound.developerInfo");
+		
+		return new RestErrorDto(HttpStatus.NOT_FOUND, code, message, developerInfo);
 	}
 
 	/**
@@ -56,7 +62,7 @@ public class ClubExceptionHandler {
 
 		final String[] params = { e.getDuplicatedAcronym() };
 
-		final String code = localeMessage.getMessage("error.clubServer.baseError")
+		final String code = localeMessage.getMessage("error.club.server.baseError")
 				+ localeMessage.getMessage("error.duplicatedClubAcronym.code");
 		final String message = localeMessage.getMessage("error.duplicatedClubAcronym.message", params);
 		final String developerInfo = localeMessage.getMessage("error.duplicatedClubAcronym.developerInfo");
