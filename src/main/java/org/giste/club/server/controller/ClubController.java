@@ -8,6 +8,7 @@ import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
 import org.giste.club.server.service.exception.ClubNotFoundException;
 import org.giste.club.server.service.exception.DuplicatedClubAcronymException;
+import org.giste.club.server.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,8 +46,8 @@ public class ClubController {
 	/**
 	 * Creates a new Club.
 	 * 
-	 * @param club ClubDto object with values for new club.
-	 * @return ClubDto Object with the values of the new created Club.
+	 * @param club BaseDto object with values for new club.
+	 * @return BaseDto Object with the values of the new created Club.
 	 * @throws DuplicatedClubAcronymException If Acronym for new club is in use
 	 *             by another club.
 	 */
@@ -59,11 +60,11 @@ public class ClubController {
 	 * Retrieves one single club.
 	 * 
 	 * @param id Identifier of the club to retrieve.
-	 * @return {@link ClubDto} with the data of the requested club.
+	 * @return {@link BaseDto} with the data of the requested club.
 	 * @throws ClubNotFoundException If the requested club can't be found.
 	 */
 	@GetMapping(value = "/{id}")
-	public ClubDto findById(@PathVariable("id") Long id) throws ClubNotFoundException {
+	public ClubDto findById(@PathVariable("id") Long id) throws EntityNotFoundException {
 		ClubDto club = clubService.findById(id);
 
 		return club;
@@ -72,7 +73,7 @@ public class ClubController {
 	/**
 	 * Retrieves all clubs.
 	 * 
-	 * @return List populated with the {@link ClubDto} of all existent clubs.
+	 * @return List populated with the {@link BaseDto} of all existent clubs.
 	 */
 	@GetMapping
 	public List<ClubDto> findAll() {
@@ -83,16 +84,16 @@ public class ClubController {
 	 * Updates one club.
 	 * 
 	 * @param id Identifier of the club to be updated.
-	 * @param club {@link ClubDto} with the values of the club to update.
-	 * @return {@link ClubDto} with the updated values of the club.
+	 * @param club {@link BaseDto} with the values of the club to update.
+	 * @return {@link BaseDto} with the updated values of the club.
 	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping(value = "/{id}")
-	public ClubDto update(@PathVariable("id") Long id, @RequestBody @Valid final ClubDto club) throws DuplicatedClubAcronymException, ClubNotFoundException {
+	public ClubDto update(@PathVariable("id") Long id, @RequestBody @Valid final ClubDto club) throws DuplicatedClubAcronymException, EntityNotFoundException {
 
 		// If club identifier is different, overwrite it.
 		if (id != club.getId()) {
-			LOGGER.debug("Identifier from ClubDto ({}) is different than identifier from URI ({})", club.getId(), id);
+			LOGGER.debug("Identifier from BaseDto ({}) is different than identifier from URI ({})", club.getId(), id);
 			club.setId(id);
 		}
 
@@ -103,11 +104,11 @@ public class ClubController {
 	 * Deletes one club.
 	 * 
 	 * @param id Identifier of the club to delete.
-	 * @return {@link ClubDto} with the values of the deleted club.
+	 * @return {@link BaseDto} with the values of the deleted club.
 	 * @throws ClubNotFoundException 
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ClubDto deleteById(@PathVariable("id") Long id) throws ClubNotFoundException {
+	public ClubDto deleteById(@PathVariable("id") Long id) throws EntityNotFoundException {
 		return clubService.deleteById(id);
 	}
 	
@@ -115,11 +116,11 @@ public class ClubController {
 	 * Enables one club in the application.
 	 * 
 	 * @param id Identifier of the club to enable.
-	 * @return {@link ClubDto} with the values of the enabled club.
+	 * @return {@link BaseDto} with the values of the enabled club.
 	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping("/{id}/enable")
-	public ClubDto enable(@PathVariable("id") Long id) throws ClubNotFoundException {
+	public ClubDto enable(@PathVariable("id") Long id) throws EntityNotFoundException {
 		return clubService.enable(id);
 	}
 
@@ -127,11 +128,11 @@ public class ClubController {
 	 * Disables one club in the application.
 	 * 
 	 * @param id Identifier of the club to disable.
-	 * @return {@link ClubDto} with the values of the disabled club.
+	 * @return {@link BaseDto} with the values of the disabled club.
 	 * @throws ClubNotFoundException 
 	 */
 	@PutMapping("/{id}/disable")
-	public ClubDto disable(@PathVariable("id") Long id) throws ClubNotFoundException {
+	public ClubDto disable(@PathVariable("id") Long id) throws EntityNotFoundException {
 		return clubService.disable(id);
 	}
 }

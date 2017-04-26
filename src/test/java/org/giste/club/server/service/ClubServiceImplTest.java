@@ -15,8 +15,8 @@ import java.util.List;
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.entity.Club;
 import org.giste.club.server.repository.ClubRepository;
-import org.giste.club.server.service.exception.ClubNotFoundException;
 import org.giste.club.server.service.exception.DuplicatedClubAcronymException;
+import org.giste.club.server.service.exception.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,9 +88,9 @@ public class ClubServiceImplTest {
 		try {
 			clubService.findById(1L);
 
-			fail("Expected ClubNotFoundException");
-		} catch (ClubNotFoundException e) {
-			assertThat(e.getIdNotFound(), is(1L));
+			fail("Expected EntityNotFoundException");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getId(), is(1L));
 		}
 	}
 
@@ -168,9 +168,9 @@ public class ClubServiceImplTest {
 		try {
 			clubService.update(clubDto1);
 
-			fail("ClubNotFoundException expected.");
-		} catch (ClubNotFoundException e) {
-			assertThat(e.getIdNotFound(), is(clubDto1.getId()));
+			fail("EntityNotFoundException expected.");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getId(), is(clubDto1.getId()));
 		}
 
 		verify(clubRepository).findOne(clubDto1.getId());
@@ -230,9 +230,9 @@ public class ClubServiceImplTest {
 		try {
 			clubService.deleteById(id);
 
-			fail("ClubNotFoundException expected.");
-		} catch (ClubNotFoundException e) {
-			assertThat(e.getIdNotFound(), is(id));
+			fail("EntityNotFoundException expected.");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getId(), is(id));
 		}
 
 		verify(clubRepository).findOne(id);
@@ -272,9 +272,9 @@ public class ClubServiceImplTest {
 		try {
 			clubService.enable(id);
 
-			fail("ClubNotFoundException expected.");
-		} catch (ClubNotFoundException e) {
-			assertThat(e.getIdNotFound(), is(id));
+			fail("EntityNotFoundException expected.");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getId(), is(id));
 		}
 
 		verify(clubRepository).findOne(id);
@@ -314,9 +314,9 @@ public class ClubServiceImplTest {
 		try {
 			clubService.disable(id);
 
-			fail("ClubNotFoundException expected.");
-		} catch (ClubNotFoundException e) {
-			assertThat(e.getIdNotFound(), is(id));
+			fail("EntityNotFoundException expected.");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getId(), is(id));
 		}
 
 		verify(clubRepository).findOne(id);

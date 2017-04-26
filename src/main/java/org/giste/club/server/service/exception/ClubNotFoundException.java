@@ -5,11 +5,8 @@ package org.giste.club.server.service.exception;
  * 
  * @author Giste
  */
-public class ClubNotFoundException extends RuntimeException {
+public class ClubNotFoundException extends EntityNotFoundException {
 	private static final long serialVersionUID = -2989138023595002294L;
-
-	private final long idNotFound;
-	private static final String message = "There is no club with id: %s";
 
 	/**
 	 * Constructs the exception with the requested club identifier as a parameter.
@@ -17,17 +14,6 @@ public class ClubNotFoundException extends RuntimeException {
 	 * @param id The requested club identifier.
 	 */
 	public ClubNotFoundException(long id) {
-		super(String.format(message, id));
-		this.idNotFound = id;
+		super(id);
 	}
-
-	/**
-	 * Gets the club identifier that originated this exception.
-	 * 
-	 * @return The identifier of the club not found.
-	 */
-	public long getIdNotFound() {
-		return idNotFound;
-	}
-
 }

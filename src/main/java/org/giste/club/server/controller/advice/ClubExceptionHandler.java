@@ -39,7 +39,7 @@ public class ClubExceptionHandler {
 	@ExceptionHandler(value = ClubNotFoundException.class)
 	@ResponseBody
 	public RestErrorDto handleClubNotFound(ClubNotFoundException e) {
-		final Long[] params = {e.getIdNotFound()};
+		final Long[] params = {e.getId()};
 		final String code = localeMessage.getMessage("error.club.server.baseError")
 				+ localeMessage.getMessage("error.clubNotFound.code");
 		final String message = localeMessage.getMessage("error.clubNotFound.message", params);

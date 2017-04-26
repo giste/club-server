@@ -6,7 +6,7 @@ package org.giste.club.server.service.exception;
  * 
  * @author Giste
  */
-public class DuplicatedClubAcronymException extends Exception {
+public class DuplicatedClubAcronymException extends RuntimeException {
 
 	private static final long serialVersionUID = 2894647064409676921L;
 	private static final String message = "The acronym %s is in use by another club.";
