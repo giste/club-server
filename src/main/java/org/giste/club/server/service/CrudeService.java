@@ -3,6 +3,7 @@ package org.giste.club.server.service;
 import java.util.List;
 
 import org.giste.club.server.service.exception.EntityNotFoundException;
+import org.giste.util.dto.NonRemovableDto;
 
 /**
  * Super interface for CRUDE operations (Create, Remove, Update, Enable, Disable) with an entity.
@@ -11,7 +12,7 @@ import org.giste.club.server.service.exception.EntityNotFoundException;
  *
  * @param <T> DTO of the object to manage.
  */
-public interface CrudeService<T> {
+public interface CrudeService<T extends NonRemovableDto> {
 
 	/**
 	 * Creates a new object.
