@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
-import org.giste.club.server.service.exception.ClubNotFoundException;
-import org.giste.club.server.service.exception.DuplicatedClubAcronymException;
+import org.giste.club.server.service.exception.DuplicatedPropertyException;
+import org.giste.club.server.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -87,7 +87,7 @@ public class ClubControllerTest {
 	public void createExistentAcronym() throws Exception {
 		final String DUPLICATED_ACRONYM = "AAA";
 
-		when(clubService.create(any(ClubDto.class))).thenThrow(new DuplicatedClubAcronymException(DUPLICATED_ACRONYM));
+		when(clubService.create(any(ClubDto.class))).thenThrow(new DuplicatedPropertyException("",DUPLICATED_ACRONYM,""));
 
 		this.mvc.perform(post(PATH_CLUBS)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -134,7 +134,7 @@ public class ClubControllerTest {
 
 	@Test
 	public void findByIdClubNotFound() throws Exception {
-		when(clubService.findById(anyLong())).thenThrow(new ClubNotFoundException(0));
+		when(clubService.findById(anyLong())).thenThrow(new EntityNotFoundException(1L, "", "", ""));
 
 		mvc.perform(get(PATH_CLUBS_ID, 1L)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -219,7 +219,7 @@ public class ClubControllerTest {
 	public void updateClubNotFound() throws Exception {
 		final ClubDto club = new ClubDto(1L, "Club 1", "CLUB1", true);
 
-		when(clubService.update(any(ClubDto.class))).thenThrow(new ClubNotFoundException(club.getId()));
+		when(clubService.update(any(ClubDto.class))).thenThrow(new EntityNotFoundException(1L, "","",""));
 
 		mvc.perform(put(PATH_CLUBS_ID, club.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -275,7 +275,7 @@ public class ClubControllerTest {
 	public void deleteClubNotFound() throws Exception {
 		final Long id = new Long(1);
 
-		when(clubService.deleteById(id)).thenThrow(new ClubNotFoundException(id));
+		when(clubService.deleteById(id)).thenThrow(new EntityNotFoundException(1L, "","",""));
 
 		mvc.perform(delete(PATH_CLUBS_ID, id)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -309,7 +309,7 @@ public class ClubControllerTest {
 	public void enableClubNotFound() throws Exception {
 		final Long id = new Long(1);
 
-		when(clubService.enable(id)).thenThrow(new ClubNotFoundException(id));
+		when(clubService.enable(id)).thenThrow(new EntityNotFoundException(1L, "","",""));
 
 		mvc.perform(put(PATH_CLUBS_ID_ENABLE, id)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -343,7 +343,7 @@ public class ClubControllerTest {
 	public void disableClubNotFound() throws Exception {
 		final Long id = new Long(1);
 
-		when(clubService.disable(id)).thenThrow(new ClubNotFoundException(id));
+		when(clubService.disable(id)).thenThrow(new EntityNotFoundException(1L, "","",""));
 
 		mvc.perform(put(PATH_CLUBS_ID_DISABLE, id)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
