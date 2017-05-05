@@ -1,7 +1,8 @@
 package org.giste.club.server.service;
 
 import org.giste.club.common.dto.ClubDto;
-import org.giste.club.server.service.exception.EntityNotFoundException;
+import org.giste.spring.util.service.CrudeService;
+import org.giste.spring.util.service.exception.EntityNotFoundException;
 
 /**
  * Interface for Club Service.

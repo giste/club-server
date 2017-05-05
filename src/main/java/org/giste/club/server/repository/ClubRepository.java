@@ -1,13 +1,14 @@
 package org.giste.club.server.repository;
 
 import org.giste.club.server.entity.Club;
+import org.giste.spring.util.repository.CrudeRepository;
 
 /**
  * Interface for club repository.
  * 
  * @author Giste
  */
-public interface ClubRepository extends BaseRepository<Club> {
+public interface ClubRepository extends CrudeRepository<Club> {
 
 	/**
 	 * Gets a club given its acronym.

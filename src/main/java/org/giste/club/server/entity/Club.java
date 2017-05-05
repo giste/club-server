@@ -3,6 +3,8 @@ package org.giste.club.server.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.giste.spring.util.entity.NonRemovableEntity;
+
 /**
  * Entity for a club.
  * 

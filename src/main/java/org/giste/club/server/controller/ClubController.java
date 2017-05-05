@@ -2,6 +2,7 @@ package org.giste.club.server.controller;
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
+import org.giste.spring.util.controller.RestCrudeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
