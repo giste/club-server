@@ -1,6 +1,6 @@
 package org.giste.club.server.controller.advice;
 
-import org.giste.spring.util.service.advice.CrudeServiceExceptionHandler;
+import org.giste.spring.server.controller.advice.CrudeServiceExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**

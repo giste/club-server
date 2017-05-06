@@ -1,7 +1,7 @@
 package org.giste.club.server.repository;
 
 import org.giste.club.server.entity.Club;
-import org.giste.spring.util.repository.CrudeRepository;
+import org.giste.spring.server.repository.CrudeRepository;
 
 /**
  * Interface for club repository.

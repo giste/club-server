@@ -17,9 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
-import org.giste.spring.util.controller.RestCrudeControllerTest;
-import org.giste.spring.util.service.CrudeService;
-import org.giste.spring.util.service.exception.DuplicatedPropertyException;
+import org.giste.spring.server.controller.RestCrudeControllerTest;
+import org.giste.spring.server.service.CrudeService;
+import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
