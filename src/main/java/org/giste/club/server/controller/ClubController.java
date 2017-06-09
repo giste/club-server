@@ -28,6 +28,4 @@ public class ClubController extends RestCrudeController<ClubDto> {
 	public ClubController(final ClubService clubService) {
 		super(clubService);
 	}
-	
-	
 }

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import org.giste.spring.server.entity.NonRemovableEntity;
 
 /**
- * Entity for a club.
+ * Entity for a club. A club has a name and an acronym.
  * 
  * @author Giste
  */
@@ -20,6 +20,9 @@ public class Club extends NonRemovableEntity {
 	@Column(unique = true)
 	private String acronym;
 
+	/**
+	 * Creates a new club without values.
+	 */
 	public Club() {
 
 	}
@@ -38,18 +41,38 @@ public class Club extends NonRemovableEntity {
 		this.acronym = acronym;
 	}
 
+	/**
+	 * Gets the name of the club.
+	 * 
+	 * @return The name of the club.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name of the club.
+	 * 
+	 * @param name The name of the club.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the acronym of the club.
+	 * 
+	 * @return The acronym of the club.
+	 */
 	public String getAcronym() {
 		return acronym;
 	}
 
+	/**
+	 * Sets the acronym of the club.
+	 * 
+	 * @param acronym The acronym of the club.
+	 */
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}

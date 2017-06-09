@@ -94,7 +94,7 @@ public class ClubServiceImpl extends CrudeServiceImpl<ClubDto, Club> implements 
 	 * Check if the acronym is duplicated and throws DuplicatedPropertyException
 	 * if that is the case.
 	 * 
-	 * @param acronym
+	 * @param clubDto DTO of the club to check.
 	 */
 	private void checkAcronym(ClubDto clubDto) throws DuplicatedPropertyException {
 		try {
