@@ -21,7 +21,7 @@ public class ClubServiceImplTest extends CrudeServiceImplTest<ClubDto, Club> {
 	private ClubRepository repository;
 	@MockBean
 	private LocaleMessage localeMessage;
-	
+
 	@Override
 	protected ClubRepository getRepositoryMock() {
 		return repository;
@@ -45,7 +45,7 @@ public class ClubServiceImplTest extends CrudeServiceImplTest<ClubDto, Club> {
 	}
 
 	@Override
-	protected void verifyDuplicatedProperties(ClubDto dto){
+	protected void verifyDuplicatedProperties(ClubDto dto) {
 		verify(repository).findByAcronym((dto).getAcronym());
 	}
 }

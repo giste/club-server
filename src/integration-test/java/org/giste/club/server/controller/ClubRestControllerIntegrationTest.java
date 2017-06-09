@@ -126,11 +126,11 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 	protected String getNotFoundErrorCode() {
 		return "10001002";
 	}
-	
+
 	protected ClubDto getDisabledDto() {
 		return getDtoList().get(0);
 	}
-	
+
 	protected ClubDto getEnabledDto() {
 		return getDtoList().get(1);
 	}

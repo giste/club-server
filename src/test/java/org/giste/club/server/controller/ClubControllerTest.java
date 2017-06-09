@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @WebMvcTest(ClubController.class)
 public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
-	
+
 	private final static String PATH_CLUBS = "/rest/clubs";
 	private final static String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";
 
@@ -43,10 +43,10 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 	private MockMvc mvc;
 	@Autowired
 	private ObjectMapper objectMapper;
-	
+
 	@MockBean
 	private ClubService clubService;
-	
+
 	@Override
 	protected CrudeService<ClubDto> getService() {
 		return clubService;
@@ -72,7 +72,7 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 		ResultActions resultActions = super.checkExpectedProperties(result, clubDto)
 				.andExpect(jsonPath("$.name", is(clubDto.getName())))
 				.andExpect(jsonPath("$.acronym", is(clubDto.getAcronym())));
-		
+
 		return resultActions;
 	}
 
@@ -103,13 +103,13 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 		verify(clubService).create(any(ClubDto.class));
 		verifyNoMoreInteractions(clubService);
 	}
-	
+
 	@Test
 	public void createWithInvalidDto() throws Exception {
 		final ClubDto clubDto = getNewDto();
 		clubDto.setName("AA");
 		clubDto.setAcronym("A_A");
-		
+
 		this.mvc.perform(post(PATH_CLUBS)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(objectMapper.writeValueAsBytes(clubDto)))
@@ -120,7 +120,7 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 
 		verifyZeroInteractions(clubService);
 	}
-	
+
 	@Test
 	public void updateExistentAcronym() throws Exception {
 		final String DUPLICATED_ACRONYM = "AAA";

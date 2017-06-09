@@ -74,5 +74,5 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 	public LocaleMessage localeMessage() {
 		return new LocaleMessageImpl(this.messageSource());
 	}
-	
+
 }
