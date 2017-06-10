@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -71,19 +70,44 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 	}
 
 	@Override
-	protected ResultActions checkExpectedProperties(ResultActions result, ClubDto clubDto) throws Exception {
-		ResultActions resultActions = super.checkExpectedProperties(result, clubDto)
-				.andExpect(jsonPath("$.name", is(clubDto.getName())))
-				.andExpect(jsonPath("$.acronym", is(clubDto.getAcronym())));
-
-		return resultActions;
+	protected Class<ClubDto> getDtoType() {
+		return ClubDto.class;
 	}
 
 	@Override
-	protected void checkProperties(ClubDto clubDto, ClubDto clubTargetDto) {
-		super.checkProperties(clubDto, clubTargetDto);
+	protected ClubDto getInvalidDto(ClubDto dto) {
+		dto.setName("Cl");
+		dto.setAcronym("CBL_1");
+
+		return dto;
+	}
+
+	@Override
+	protected ResultActions checkProperties(ResultActions result, ClubDto clubDto) throws Exception {
+		return super.checkProperties(result, clubDto)
+				.andExpect(jsonPath("$.name", is(clubDto.getName())))
+				.andExpect(jsonPath("$.acronym", is(clubDto.getAcronym())));
+	}
+
+	@Override
+	protected ResultActions checkListProperties(ResultActions result, ClubDto target, int index) throws Exception {
+		return super.checkListProperties(result, target, index)
+				.andExpect(jsonPath("$[" + index + "].name", is(target.getName())))
+				.andExpect(jsonPath("$[" + index + "].acronym", is(target.getAcronym())));
+	}
+
+	@Override
+	protected void checkDto(ClubDto clubDto, ClubDto clubTargetDto) {
+		super.checkDto(clubDto, clubTargetDto);
 		assertThat(clubDto.getName(), is(clubTargetDto.getName()));
 		assertThat(clubDto.getAcronym(), is(clubTargetDto.getAcronym()));
+	}
+
+	@Override
+	protected void checkInvalidProperties(ResultActions result) throws Exception {
+		result.andExpect(jsonPath("$.fieldErrorList", hasSize(2)))
+				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("name", "acronym")));
+
 	}
 
 	@Test
@@ -107,23 +131,6 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 
 		verify(clubService).create(any(ClubDto.class));
 		verifyNoMoreInteractions(clubService);
-	}
-
-	@Test
-	public void createWithInvalidDto() throws Exception {
-		final ClubDto clubDto = getNewDto();
-		clubDto.setName("AA");
-		clubDto.setAcronym("A_A");
-
-		this.mvc.perform(post(PATH_CLUBS)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsBytes(clubDto)))
-				.andExpect(status().isBadRequest())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$.fieldErrorList", hasSize(2)))
-				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("name", "acronym")));
-
-		verifyZeroInteractions(clubService);
 	}
 
 	@Test
