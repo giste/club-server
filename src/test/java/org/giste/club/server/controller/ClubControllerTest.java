@@ -19,12 +19,13 @@ import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
 import org.giste.spring.server.controller.RestCrudeControllerTest;
 import org.giste.spring.server.service.CrudeService;
-import org.giste.spring.server.service.exception.DuplicatedPropertyException;
+import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,6 +47,8 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 
 	@MockBean
 	private ClubService clubService;
+	@MockBean
+	private LocaleMessage localeMessage;
 
 	@Override
 	protected CrudeService<ClubDto> getService() {
@@ -91,7 +94,9 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 		clubDto.setAcronym(DUPLICATED_ACRONYM);
 
 		when(clubService.create(any(ClubDto.class)))
-				.thenThrow(new DuplicatedPropertyException(DUPLICATED_ACRONYM_CODE, "Message", "Developer info"));
+				.thenThrow(new DataIntegrityViolationException("Message"));
+		when(localeMessage.getMessage("error.club.server.baseError")).thenReturn("1000");
+		when(localeMessage.getMessage("error.duplicatedProperty.club.acronym.code")).thenReturn("1001");
 
 		this.mvc.perform(post(PATH_CLUBS)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -129,7 +134,9 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 		clubDto.setAcronym(DUPLICATED_ACRONYM);
 
 		when(clubService.update(any(ClubDto.class)))
-				.thenThrow(new DuplicatedPropertyException(DUPLICATED_ACRONYM_CODE, "Message", "Developer info"));
+				.thenThrow(new DataIntegrityViolationException("Message"));
+		when(localeMessage.getMessage("error.club.server.baseError")).thenReturn("1000");
+		when(localeMessage.getMessage("error.duplicatedProperty.club.acronym.code")).thenReturn("1001");
 
 		this.mvc.perform(put(PATH_CLUBS_ID, clubDto.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)

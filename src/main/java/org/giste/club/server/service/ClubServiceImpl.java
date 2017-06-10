@@ -6,11 +6,8 @@ import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.entity.Club;
 import org.giste.club.server.repository.ClubRepository;
 import org.giste.spring.server.service.CrudeServiceImpl;
-import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.giste.spring.server.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class ClubServiceImpl extends CrudeServiceImpl<ClubDto, Club> implements ClubService {
-
-	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	private LocaleMessage localeMessage;
 
@@ -84,40 +79,4 @@ public class ClubServiceImpl extends CrudeServiceImpl<ClubDto, Club> implements 
 
 		return new EntityNotFoundException(id, code, message, developerInfo);
 	}
-
-	@Override
-	protected void checkDuplicatedProperties(ClubDto clubDto) throws DuplicatedPropertyException {
-		checkAcronym(clubDto);
-	}
-
-	/**
-	 * Check if the acronym is duplicated and throws DuplicatedPropertyException
-	 * if that is the case.
-	 * 
-	 * @param clubDto DTO of the club to check.
-	 */
-	private void checkAcronym(ClubDto clubDto) throws DuplicatedPropertyException {
-		try {
-			final ClubDto readClub = this.findByAcronym(clubDto.getAcronym());
-			if (clubDto.getId() != readClub.getId()) {
-				// There is a club with the same acronym and different Id. Throw
-				// exception.
-				final String[] params = { clubDto.getAcronym() };
-				final String code = localeMessage.getMessage("error.club.server.baseError")
-						+ localeMessage.getMessage("error.duplicatedProperty.club.acronym.code");
-				final String message = localeMessage.getMessage("error.duplicatedProperty.club.acronym.message",
-						params);
-				final String developerInfo = localeMessage
-						.getMessage("error.duplicatedProperty.club.acronym.developerInfo");
-				DuplicatedPropertyException dpe = new DuplicatedPropertyException(code, message, developerInfo);
-
-				LOGGER.debug("checkAcronym: Throwing DuplicatedPropertyException {}", dpe);
-
-				throw dpe;
-			}
-		} catch (EntityNotFoundException e) {
-			// Nothing to do, the acronym is not in use.
-		}
-	}
-
 }

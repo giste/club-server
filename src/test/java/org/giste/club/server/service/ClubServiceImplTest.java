@@ -2,7 +2,6 @@ package org.giste.club.server.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.entity.Club;
@@ -44,8 +43,4 @@ public class ClubServiceImplTest extends CrudeServiceImplTest<ClubDto, Club> {
 		assertThat(dto.getAcronym(), is(entity.getAcronym()));
 	}
 
-	@Override
-	protected void verifyDuplicatedProperties(ClubDto dto) {
-		verify(repository).findByAcronym((dto).getAcronym());
-	}
 }
