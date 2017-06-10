@@ -87,7 +87,7 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 	}
 
 	@Test
-	public void createExistentAcronym() throws Exception {
+	public void createDuplicatedAcronym() throws Exception {
 		final String DUPLICATED_ACRONYM = "AAA";
 		final String DUPLICATED_ACRONYM_CODE = "10001001";
 		final ClubDto clubDto = getNewDto();
@@ -127,7 +127,7 @@ public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
 	}
 
 	@Test
-	public void updateExistentAcronym() throws Exception {
+	public void updateDuplicatedAcronym() throws Exception {
 		final String DUPLICATED_ACRONYM = "AAA";
 		final String DUPLICATED_ACRONYM_CODE = "10001001";
 		final ClubDto clubDto = getNewDto();
