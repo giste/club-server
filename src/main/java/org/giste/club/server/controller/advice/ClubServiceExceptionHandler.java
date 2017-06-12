@@ -1,6 +1,6 @@
 package org.giste.club.server.controller.advice;
 
-import org.giste.spring.server.controller.advice.CrudeServiceExceptionHandler;
+import org.giste.spring.server.controller.advice.ServiceExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
  * @author Giste
  */
 @ControllerAdvice
-public class ClubServiceExceptionHandler extends CrudeServiceExceptionHandler {
+public class ClubServiceExceptionHandler extends ServiceExceptionHandler {
 
 }
