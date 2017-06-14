@@ -5,8 +5,6 @@ import org.giste.club.server.service.ClubService;
 import org.giste.spring.server.controller.RestCrudeController;
 import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.giste.spring.util.locale.LocaleMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest/clubs")
 public class ClubController extends RestCrudeController<ClubDto> {
 
-	final Logger LOGGER = LoggerFactory.getLogger(getClass());
-	final LocaleMessage localeMessage;
+	private final LocaleMessage localeMessage;
 
 	/**
 	 * Constructs a REST controller for club entities. This controller is a
