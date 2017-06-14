@@ -13,7 +13,6 @@ import org.giste.club.common.dto.Role;
 import org.giste.club.common.dto.UserDto;
 import org.giste.club.server.entity.User;
 import org.giste.club.server.repository.UserRepository;
-import org.giste.spring.server.repository.CrudRepository;
 import org.giste.spring.server.service.CrudServiceImplTest;
 import org.giste.spring.server.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
@@ -31,7 +30,7 @@ public class UserServiceImplTest extends CrudServiceImplTest<UserDto, User> {
 	private LocaleMessage localeMessage;
 
 	@Override
-	protected CrudRepository<User> getRepositoryMock() {
+	protected UserRepository getRepositoryMock() {
 		return repository;
 	}
 
@@ -51,8 +50,8 @@ public class UserServiceImplTest extends CrudServiceImplTest<UserDto, User> {
 	}
 
 	@Override
-	protected void checkFields(UserDto dto, User entity) {
-		super.checkFields(dto, entity);
+	protected void checkProperties(UserDto dto, User entity) {
+		super.checkProperties(dto, entity);
 		assertThat(dto.getEmail(), is(entity.getEmail()));
 		assertThat(dto.getPasswordHash(), is(entity.getPasswordHash()));
 		assertThat(dto.getRole(), is(entity.getRole()));
@@ -69,7 +68,7 @@ public class UserServiceImplTest extends CrudServiceImplTest<UserDto, User> {
 		verify(repository).findByEmail(user.getEmail());
 		verifyNoMoreInteractions(repository);
 
-		checkFields(userDto, user);
+		checkProperties(userDto, user);
 	}
 
 	@Test

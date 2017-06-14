@@ -52,7 +52,7 @@ public class UserServiceImpl extends CrudServiceImpl<UserDto, User> implements U
 
 	@Override
 	public UserDto findByEmail(String email) throws EntityNotFoundException {
-		Optional<User> user = ((UserRepository) repository).findByEmail(email);
+		Optional<User> user = getRepository().findByEmail(email);
 
 		if (user.isPresent()) {
 			return getDtoFromEntity(user.get());
@@ -66,4 +66,10 @@ public class UserServiceImpl extends CrudServiceImpl<UserDto, User> implements U
 			throw new EntityNotFoundException(email, code, message, developerInfo);
 		}
 	}
+
+	@Override
+	protected UserRepository getRepository() {
+		return (UserRepository) super.getRepository();
+	}
+
 }

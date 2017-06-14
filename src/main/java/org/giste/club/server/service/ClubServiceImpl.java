@@ -35,7 +35,7 @@ public class ClubServiceImpl extends CrudeServiceImpl<ClubDto, Club> implements 
 
 	@Override
 	public ClubDto findByAcronym(String acronym) throws EntityNotFoundException {
-		Club club = ((ClubRepository) repository).findByAcronym(acronym);
+		Club club = ((ClubRepository) getRepository()).findByAcronym(acronym);
 
 		if (club == null) {
 			final String[] params = { acronym };
@@ -79,4 +79,10 @@ public class ClubServiceImpl extends CrudeServiceImpl<ClubDto, Club> implements 
 
 		return new EntityNotFoundException(id, code, message, developerInfo);
 	}
+
+	@Override
+	protected ClubRepository getRepository() {
+		return (ClubRepository) super.getRepository();
+	}
+
 }

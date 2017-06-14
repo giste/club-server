@@ -27,7 +27,7 @@ public class PlayerServiceImplTest extends CrudeServiceImplTest<PlayerDto, Playe
 	}
 
 	@Override
-	protected PlayerServiceImpl getService() {
+	protected PlayerServiceImpl getTestService() {
 		return new PlayerServiceImpl(repository, localeMessage);
 	}
 
@@ -36,16 +36,18 @@ public class PlayerServiceImplTest extends CrudeServiceImplTest<PlayerDto, Playe
 		return new Player(1L, false, "name surname", 2001, false, Gender.MALE);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.giste.spring.server.service.CrudeServiceImplTest#checkFields(org.giste.util.dto.NonRemovableDto, org.giste.spring.server.entity.NonRemovableEntity)
-	 */
 	@Override
-	protected void checkFields(PlayerDto dto, Player entity) {
-		super.checkFields(dto, entity);
+	protected void checkProperties(PlayerDto dto, Player entity) {
+		super.checkProperties(dto, entity);
 		assertThat(dto.getName(), is(entity.getName()));
 		assertThat(dto.getBirthYear(), is(entity.getBirthYear()));
 		assertThat(dto.isGoalie(), is(entity.isGoalie()));
 		assertThat(dto.getGender(), is(entity.getGender()));
+	}
+
+	@Override
+	protected Class<Player> getEntityType() {
+		return Player.class;
 	}
 
 }

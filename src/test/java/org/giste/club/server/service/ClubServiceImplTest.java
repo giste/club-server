@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.entity.Club;
 import org.giste.club.server.repository.ClubRepository;
-import org.giste.spring.server.service.CrudeServiceImpl;
 import org.giste.spring.server.service.CrudeServiceImplTest;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.runner.RunWith;
@@ -27,7 +26,7 @@ public class ClubServiceImplTest extends CrudeServiceImplTest<ClubDto, Club> {
 	}
 
 	@Override
-	protected CrudeServiceImpl<ClubDto, Club> getService() {
+	protected ClubServiceImpl getTestService() {
 		return new ClubServiceImpl(repository, localeMessage);
 	}
 
@@ -37,10 +36,15 @@ public class ClubServiceImplTest extends CrudeServiceImplTest<ClubDto, Club> {
 	}
 
 	@Override
-	protected void checkFields(ClubDto dto, Club entity) {
-		super.checkFields(dto, entity);
+	protected void checkProperties(ClubDto dto, Club entity) {
+		super.checkProperties(dto, entity);
 		assertThat(dto.getName(), is(entity.getName()));
 		assertThat(dto.getAcronym(), is(entity.getAcronym()));
+	}
+
+	@Override
+	protected Class<Club> getEntityType() {
+		return Club.class;
 	}
 
 }
