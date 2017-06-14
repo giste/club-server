@@ -2,7 +2,7 @@ package org.giste.club.server.controller;
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
-import org.giste.spring.server.controller.RestCrudeController;
+import org.giste.spring.server.controller.CrudeRestController;
 import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rest/clubs")
-public class ClubController extends RestCrudeController<ClubDto> {
+public class ClubController extends CrudeRestController<ClubDto> {
 
 	private final LocaleMessage localeMessage;
 
 	/**
 	 * Constructs a REST controller for club entities. This controller is a
-	 * subclass of {@link RestCrudeController}.
+	 * subclass of {@link CrudeRestController}.
 	 * 
 	 * @param clubService {@link ClubService} for managing club requests.
 	 * @param localeMessage Bean for getting localized messages.

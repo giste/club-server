@@ -2,7 +2,7 @@ package org.giste.club.server.controller;
 
 import org.giste.club.common.dto.UserDto;
 import org.giste.club.server.service.UserService;
-import org.giste.spring.server.controller.RestCrudController;
+import org.giste.spring.server.controller.CrudRestController;
 import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/rest/users")
-public class UserController extends RestCrudController<UserDto> {
+public class UserController extends CrudRestController<UserDto> {
 
 	final LocaleMessage localeMessage;
 

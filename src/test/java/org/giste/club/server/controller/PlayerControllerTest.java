@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.giste.club.common.dto.Gender;
 import org.giste.club.common.dto.PlayerDto;
 import org.giste.club.server.service.PlayerService;
-import org.giste.spring.server.controller.RestCrudeControllerTest;
+import org.giste.spring.server.controller.CrudeRestControllerTest;
 import org.giste.spring.server.service.CrudeService;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.giste.util.StringUtil;
@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PlayerController.class)
-public class PlayerControllerTest extends RestCrudeControllerTest<PlayerDto> {
+public class PlayerControllerTest extends CrudeRestControllerTest<PlayerDto> {
 
 	@Autowired
 	private MockMvc mvc;

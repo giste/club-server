@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.giste.club.common.dto.Role;
 import org.giste.club.common.dto.UserDto;
 import org.giste.club.server.service.UserService;
-import org.giste.spring.server.controller.RestCrudControllerTest;
+import org.giste.spring.server.controller.CrudRestControllerTest;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
-public class UserControllerTest extends RestCrudControllerTest<UserDto> {
+public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 
 	private final static String PATH_USERS = "/rest/users";
 

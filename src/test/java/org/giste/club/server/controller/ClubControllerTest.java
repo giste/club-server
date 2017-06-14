@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.giste.club.common.dto.ClubDto;
 import org.giste.club.server.service.ClubService;
-import org.giste.spring.server.controller.RestCrudeControllerTest;
+import org.giste.spring.server.controller.CrudeRestControllerTest;
 import org.giste.spring.server.service.CrudeService;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.Test;
@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ClubController.class)
-public class ClubControllerTest extends RestCrudeControllerTest<ClubDto> {
+public class ClubControllerTest extends CrudeRestControllerTest<ClubDto> {
 
 	private final static String PATH_CLUBS = "/rest/clubs";
 	private final static String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";
