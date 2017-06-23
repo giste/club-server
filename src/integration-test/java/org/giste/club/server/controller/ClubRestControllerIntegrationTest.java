@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.giste.club.common.dto.ClubDto;
@@ -113,11 +114,6 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 	}
 
 	@Override
-	protected int getInvalidProperties() {
-		return 2;
-	}
-
-	@Override
 	protected Class<ClubDto> getDtoType() {
 		return ClubDto.class;
 	}
@@ -146,5 +142,10 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 	protected ClubDto getEnabledDto() {
 		return getDtoList().get(1);
 	}
-	
+
+	@Override
+	protected List<String> getInvalidFields() {
+		return Arrays.asList("name", "acronym");
+	}
+
 }

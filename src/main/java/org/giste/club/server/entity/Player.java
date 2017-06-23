@@ -17,17 +17,17 @@ import org.giste.spring.server.entity.NonRemovableEntity;
 public class Player extends NonRemovableEntity {
 
 	private static final long serialVersionUID = -4101436904122552862L;
-	
-	@Column(name="name", nullable=false, length=40, unique=true)
+
+	@Column(name = "name", nullable = false, length = 40, unique = true)
 	private String name;
-	
-	@Column(name="birth_year", nullable=false)
+
+	@Column(name = "birth_year", nullable = false)
 	private Integer birthYear;
-	
-	@Column(name="goalie", nullable=false)
+
+	@Column(name = "goalie", nullable = false)
 	private boolean goalie;
-	
-	@Column(name="gender", nullable=false)
+
+	@Column(name = "gender", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
@@ -35,7 +35,7 @@ public class Player extends NonRemovableEntity {
 	 * Default constructor.
 	 */
 	public Player() {
-		
+
 	}
 
 	/**
@@ -44,16 +44,17 @@ public class Player extends NonRemovableEntity {
 	 * @param id Identifier of the player.
 	 * @param enabled Indicates if the player is enabled in the application.
 	 * @param name Name of the player.
-	 * @param birthYear year of the birth of the player. It's used for assign a category to it.
+	 * @param birthYear year of the birth of the player. It's used for assign a
+	 *            category to it.
 	 * @param goalie Indicates if the player is a goalie.
 	 * @param gender Gender of the player.
 	 */
 	public Player(Long id, boolean enabled, String name, Integer birthYear, boolean goalie, Gender gender) {
 		super(id, enabled);
 		this.name = name;
-		this.birthYear=birthYear;
-		this.goalie=goalie;
-		this.gender=gender;
+		this.birthYear = birthYear;
+		this.goalie = goalie;
+		this.gender = gender;
 	}
 
 	/**
@@ -95,7 +96,8 @@ public class Player extends NonRemovableEntity {
 	/**
 	 * Gets if the player is a goalie.
 	 * 
-	 * @return <code>true</code> if the player is a goalie or <code>false</code> otherwise.
+	 * @return <code>true</code> if the player is a goalie or <code>false</code>
+	 *         otherwise.
 	 */
 	public boolean isGoalie() {
 		return goalie;
@@ -104,7 +106,8 @@ public class Player extends NonRemovableEntity {
 	/**
 	 * Gets if the player is a goalie.
 	 * 
-	 * @param goalie <code>true</code> if the player is a goalie or <code>false</code> otherwise.
+	 * @param goalie <code>true</code> if the player is a goalie or
+	 *            <code>false</code> otherwise.
 	 */
 	public void setGoalie(boolean goalie) {
 		this.goalie = goalie;
@@ -127,5 +130,5 @@ public class Player extends NonRemovableEntity {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	
+
 }

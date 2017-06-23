@@ -47,7 +47,7 @@ public class PlayerServiceImpl extends CrudeServiceImpl<PlayerDto, Player> imple
 		entity.setBirthYear(dto.getBirthYear());
 		entity.setGoalie(dto.isGoalie());
 		entity.setGender(dto.getGender());
-		
+
 		return entity;
 	}
 

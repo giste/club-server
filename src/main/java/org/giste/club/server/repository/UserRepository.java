@@ -11,6 +11,6 @@ import org.giste.spring.server.repository.CrudRepository;
  * @author Giste
  */
 public interface UserRepository extends CrudRepository<User> {
-	
+
 	Optional<User> findByEmail(String email);
 }

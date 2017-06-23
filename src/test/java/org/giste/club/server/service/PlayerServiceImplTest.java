@@ -20,7 +20,7 @@ public class PlayerServiceImplTest extends CrudeServiceImplTest<PlayerDto, Playe
 	private PlayerRepository repository;
 	@MockBean
 	private LocaleMessage localeMessage;
-	
+
 	@Override
 	protected PlayerRepository getRepositoryMock() {
 		return repository;

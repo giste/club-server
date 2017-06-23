@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.giste.club.common.dto.Role;
@@ -29,10 +30,10 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 public class UserRestControllerIntegrationTest extends CrudRestControllerIntegrationTest<UserDto> {
 
 	private final static String PATH_USERS = "/rest/users";
-	
+
 	@Override
 	protected void checkDto(UserDto dto, UserDto target, boolean checkId) {
-		if(checkId) {
+		if (checkId) {
 			assertThat(dto.getId(), is(target.getId()));
 		}
 		assertThat(dto.getEmail(), is(target.getEmail()));
@@ -44,11 +45,11 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	protected List<UserDto> getDtoList() {
 		UserDto user1 = new UserDto(1L, "user1@email.org", "hash1", Role.USER);
 		UserDto user2 = new UserDto(2L, "user2@email.org", "hash2", Role.ADMIN);
-		
+
 		List<UserDto> userList = new ArrayList<>();
 		userList.add(user1);
 		userList.add(user2);
-		
+
 		return userList;
 	}
 
@@ -58,7 +59,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 		user.setEmail("newuser@email.org");
 		user.setPasswordHash("hash");
 		user.setRole(Role.USER);
-		
+
 		return user;
 	}
 
@@ -66,7 +67,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	protected UserDto getInvalidDto(UserDto dto) {
 		dto.setEmail("email");
 		dto.setRole(null);
-		
+
 		return dto;
 	}
 
@@ -75,13 +76,8 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 		dto.setEmail("othermail@email.org");
 		dto.setPasswordHash("otherhash");
 		dto.setRole(Role.ROOT);
-		
-		return dto;
-	}
 
-	@Override
-	protected int getInvalidProperties() {
-		return 2;
+		return dto;
 	}
 
 	@Override
@@ -102,6 +98,11 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	@Override
 	protected String getNotFoundErrorCode() {
 		return "10001004";
+	}
+
+	@Override
+	protected List<String> getInvalidFields() {
+		return Arrays.asList("email", "role");
 	}
 
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.giste.club.common.dto.Gender;
@@ -87,11 +88,6 @@ public class PlayerRestControllerIntegrationTest extends CrudeRestControllerInte
 	}
 
 	@Override
-	protected int getInvalidProperties() {
-		return 3;
-	}
-
-	@Override
 	protected Class<PlayerDto> getDtoType() {
 		return PlayerDto.class;
 	}
@@ -119,6 +115,11 @@ public class PlayerRestControllerIntegrationTest extends CrudeRestControllerInte
 	@Override
 	protected PlayerDto getEnabledDto() {
 		return getDtoList().get(1);
+	}
+
+	@Override
+	protected List<String> getInvalidFields() {
+		return Arrays.asList("name", "birthYear", "gender");
 	}
 
 }
