@@ -58,7 +58,7 @@ public class PlayerControllerTest extends CrudeRestControllerTest<PlayerDto> {
 	}
 
 	@Override
-	protected String getBasePath() {
+	protected String getPath() {
 		return "/rest/players";
 	}
 

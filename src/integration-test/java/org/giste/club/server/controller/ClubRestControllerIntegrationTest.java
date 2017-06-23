@@ -41,7 +41,7 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		newClub.setAcronym("CLB1");
 		newClub.setEnabled(true);
 
-		RestErrorDto restError = this.restTemplate.postForObject(getPathBase(), newClub,
+		RestErrorDto restError = getRestTemplate().postForObject(getPathBase(), newClub,
 				RestErrorDto.class);
 
 		assertThat(restError.getStatus(), is(HttpStatus.CONFLICT));
@@ -56,13 +56,14 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		club.setAcronym("CLB2");
 		club.setEnabled(true);
 
-		RestErrorDto restError = this.restTemplate.exchange(getPathId(), HttpMethod.PUT, new HttpEntity<>(club),
+		RestErrorDto restError = getRestTemplate().exchange(getPathId(), HttpMethod.PUT, new HttpEntity<>(club),
 				RestErrorDto.class, club.getId()).getBody();
 
 		assertThat(restError.getStatus(), is(HttpStatus.CONFLICT));
 		assertThat(restError.getCode(), is("10001001"));
 	}
 
+	@Override
 	protected void checkDto(ClubDto club, ClubDto target, boolean checkId) {
 		if (checkId) {
 			assertThat(club.getId(), is(target.getId()));
@@ -72,6 +73,7 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		assertThat(club.isEnabled(), is(target.isEnabled()));
 	}
 
+	@Override
 	protected List<ClubDto> getDtoList() {
 		ClubDto club1 = new ClubDto(1L, "Club 1", "CLB1", false);
 		ClubDto club2 = new ClubDto(2L, "Club 2", "CLB2", true);
@@ -83,6 +85,7 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		return dtoList;
 	}
 
+	@Override
 	protected ClubDto getNewDto() {
 		ClubDto dto = new ClubDto();
 		dto.setName("New club");
@@ -92,6 +95,7 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		return dto;
 	}
 
+	@Override
 	protected ClubDto getInvalidDto(ClubDto dto) {
 		dto.setName("Nm");
 		dto.setAcronym("CLB_1");
@@ -99,6 +103,7 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		return dto;
 	}
 
+	@Override
 	protected ClubDto getUpdatedDto(ClubDto dto) {
 		dto.setName("Updated club");
 		dto.setAcronym("CBLN");
@@ -107,31 +112,39 @@ public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegr
 		return dto;
 	}
 
+	@Override
 	protected int getInvalidProperties() {
 		return 2;
 	}
 
+	@Override
 	protected Class<ClubDto> getDtoType() {
 		return ClubDto.class;
 	}
 
+	@Override
 	protected Class<ClubDto[]> getArrayType() {
 		return ClubDto[].class;
 	}
 
+	@Override
 	protected String getPath() {
 		return PATH_CLUBS;
 	}
 
+	@Override
 	protected String getNotFoundErrorCode() {
 		return "10001002";
 	}
 
+	@Override
 	protected ClubDto getDisabledDto() {
 		return getDtoList().get(0);
 	}
 
+	@Override
 	protected ClubDto getEnabledDto() {
 		return getDtoList().get(1);
 	}
+	
 }

@@ -65,7 +65,7 @@ public class ClubControllerTest extends CrudeRestControllerTest<ClubDto> {
 	}
 
 	@Override
-	protected String getBasePath() {
+	protected String getPath() {
 		return "/rest/clubs";
 	}
 

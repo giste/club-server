@@ -70,7 +70,7 @@ public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 	}
 
 	@Override
-	protected String getBasePath() {
+	protected String getPath() {
 		return PATH_USERS;
 	}
 
