@@ -41,7 +41,7 @@ public class UserServiceImplTest extends CrudServiceImplTest<UserDto, User> {
 
 	@Override
 	protected User getNewEntity() {
-		return new User(1L, "user1@mail.org", "1234567890", Role.ADMIN);
+		return new User(1L, "user1@mail.org", "user1", "1234567890", Role.ADMIN);
 	}
 
 	@Override
@@ -53,6 +53,7 @@ public class UserServiceImplTest extends CrudServiceImplTest<UserDto, User> {
 	protected void checkProperties(UserDto dto, User entity) {
 		super.checkProperties(dto, entity);
 		assertThat(dto.getEmail(), is(entity.getEmail()));
+		assertThat(dto.getName(), is(entity.getName()));
 		assertThat(dto.getPasswordHash(), is(entity.getPasswordHash()));
 		assertThat(dto.getRole(), is(entity.getRole()));
 	}

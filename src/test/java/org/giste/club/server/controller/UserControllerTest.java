@@ -59,12 +59,13 @@ public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 
 	@Override
 	protected UserDto getNewDto() {
-		return new UserDto(1L, "user1@email.org", "1234567890", Role.USER);
+		return new UserDto(1L, "user1@email.org", "user1", "1234567890", Role.USER);
 	}
 
 	@Override
 	protected UserDto getInvalidDto(UserDto dto) {
 		dto.setEmail("1111");
+		dto.setName(null);
 
 		return dto;
 	}
@@ -81,14 +82,15 @@ public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 
 	@Override
 	protected void checkInvalidProperties(ResultActions result) throws Exception {
-		result.andExpect(jsonPath("$.fieldErrorList", hasSize(1)))
-				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("email")));
+		result.andExpect(jsonPath("$.fieldErrorList", hasSize(2)))
+				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("email", "name")));
 	}
 
 	@Override
 	protected ResultActions checkProperties(ResultActions result, UserDto target) throws Exception {
 		return super.checkProperties(result, target)
 				.andExpect(jsonPath("$.email", is(target.getEmail())))
+				.andExpect(jsonPath("$.name", is(target.getName())))
 				.andExpect(jsonPath("$.passwordHash", is(target.getPasswordHash())))
 				.andExpect(jsonPath("$.role", is(target.getRole().toString())));
 	}
@@ -97,6 +99,7 @@ public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 	protected ResultActions checkListProperties(ResultActions result, UserDto target, int index) throws Exception {
 		return super.checkListProperties(result, target, index)
 				.andExpect(jsonPath("$[" + index + "].email", is(target.getEmail())))
+				.andExpect(jsonPath("$[" + index + "].name", is(target.getName())))
 				.andExpect(jsonPath("$[" + index + "].passwordHash", is(target.getPasswordHash())))
 				.andExpect(jsonPath("$[" + index + "].role", is(target.getRole().toString())));
 	}
@@ -105,6 +108,7 @@ public class UserControllerTest extends CrudRestControllerTest<UserDto> {
 	protected void checkDto(UserDto dto, UserDto target) {
 		super.checkDto(dto, target);
 		assertThat(dto.getEmail(), is(target.getEmail()));
+		assertThat(dto.getName(), is(target.getName()));
 		assertThat(dto.getPasswordHash(), is(target.getPasswordHash()));
 		assertThat(dto.getRole(), is(target.getRole()));
 	}

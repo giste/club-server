@@ -37,14 +37,15 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 			assertThat(dto.getId(), is(target.getId()));
 		}
 		assertThat(dto.getEmail(), is(target.getEmail()));
+		assertThat(dto.getName(), is(target.getName()));
 		assertThat(dto.getPasswordHash(), is(target.getPasswordHash()));
 		assertThat(dto.getRole(), is(target.getRole()));
 	}
 
 	@Override
 	protected List<UserDto> getDtoList() {
-		UserDto user1 = new UserDto(1L, "user1@email.org", "hash1", Role.USER);
-		UserDto user2 = new UserDto(2L, "user2@email.org", "hash2", Role.ADMIN);
+		UserDto user1 = new UserDto(1L, "user1@email.org", "user1", "hash1", Role.USER);
+		UserDto user2 = new UserDto(2L, "user2@email.org", "user2", "hash2", Role.ADMIN);
 
 		List<UserDto> userList = new ArrayList<>();
 		userList.add(user1);
@@ -57,6 +58,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	protected UserDto getNewDto() {
 		UserDto user = new UserDto();
 		user.setEmail("newuser@email.org");
+		user.setName("new user");
 		user.setPasswordHash("hash");
 		user.setRole(Role.USER);
 
@@ -66,6 +68,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	@Override
 	protected UserDto getInvalidDto(UserDto dto) {
 		dto.setEmail("email");
+		dto.setName(null);
 		dto.setRole(null);
 
 		return dto;
@@ -74,6 +77,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 	@Override
 	protected UserDto getUpdatedDto(UserDto dto) {
 		dto.setEmail("othermail@email.org");
+		dto.setName("other user");
 		dto.setPasswordHash("otherhash");
 		dto.setRole(Role.ROOT);
 
@@ -102,7 +106,7 @@ public class UserRestControllerIntegrationTest extends CrudRestControllerIntegra
 
 	@Override
 	protected List<String> getInvalidFields() {
-		return Arrays.asList("email", "role");
+		return Arrays.asList("email", "name", "role");
 	}
 
 }

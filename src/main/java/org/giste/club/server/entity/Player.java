@@ -18,7 +18,7 @@ public class Player extends NonRemovableEntity {
 
 	private static final long serialVersionUID = -4101436904122552862L;
 
-	@Column(name = "name", nullable = false, length = 40, unique = true)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "birth_year", nullable = false)

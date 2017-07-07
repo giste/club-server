@@ -22,17 +22,18 @@ public class UserServiceImpl extends CrudServiceImpl<UserDto, User> implements U
 
 	@Override
 	protected User getEntityFromDto(UserDto dto) {
-		return new User(dto.getId(), dto.getEmail(), dto.getPasswordHash(), dto.getRole());
+		return new User(dto.getId(), dto.getEmail(), dto.getName(), dto.getPasswordHash(), dto.getRole());
 	}
 
 	@Override
 	protected UserDto getDtoFromEntity(User entity) {
-		return new UserDto(entity.getId(), entity.getEmail(), entity.getPasswordHash(), entity.getRole());
+		return new UserDto(entity.getId(), entity.getEmail(), entity.getName(), entity.getPasswordHash(), entity.getRole());
 	}
 
 	@Override
 	protected User updateEntityFromDto(User entity, UserDto dto) {
 		entity.setEmail(dto.getEmail());
+		entity.setName(dto.getName());
 		entity.setPasswordHash(dto.getPasswordHash());
 		entity.setRole(dto.getRole());
 

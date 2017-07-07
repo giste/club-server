@@ -9,7 +9,7 @@ import org.giste.club.common.dto.Role;
 import org.giste.spring.server.entity.BaseEntity;
 
 /**
- * Represents a user of a club.
+ * Represents a user of the application.
  * 
  * @author Giste
  */
@@ -18,11 +18,16 @@ public class User extends BaseEntity {
 
 	private static final long serialVersionUID = 3596825783606418196L;
 
-	@Column(unique = true)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
+	@Column(name = "name", nullable = false)
+	private String name;
+	
+	@Column(name = "password_hash", nullable = false)
 	private String passwordHash;
 
+	@Column(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
@@ -38,12 +43,14 @@ public class User extends BaseEntity {
 	 * 
 	 * @param id The identifier of the user.
 	 * @param email The user email.
+	 * @param name The user's name.
 	 * @param passwordHash The user password.
 	 * @param role The user role.
 	 */
-	public User(Long id, String email, String passwordHash, Role role) {
+	public User(Long id, String email, String name, String passwordHash, Role role) {
 		super(id);
 		this.email = email;
+		this.name = name;
 		this.passwordHash = passwordHash;
 		this.role = role;
 	}
@@ -64,6 +71,24 @@ public class User extends BaseEntity {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * Gets the user's name.
+	 * 
+	 * @return The user's name.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the user's name.
+	 * 
+	 * @param name The user's name.
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
