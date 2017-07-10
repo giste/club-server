@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PlayerController.class)
-public class PlayerControllerTest extends CrudeRestControllerTest<PlayerDto> {
+@WebMvcTest(PlayerRestController.class)
+public class PlayerRestControllerTest extends CrudeRestControllerTest<PlayerDto> {
 
 	@Autowired
 	private MockMvc mvc;

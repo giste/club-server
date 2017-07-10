@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rest/players")
-public class PlayerController extends CrudeRestController<PlayerDto> {
+class PlayerRestController extends CrudeRestController<PlayerDto> {
 
 	private final LocaleMessage localeMessage;
 
@@ -25,7 +25,7 @@ public class PlayerController extends CrudeRestController<PlayerDto> {
 	 * @param restService The service used by this controller to manage players.
 	 * @param localeMessage The bean used for get localized messages.
 	 */
-	public PlayerController(PlayerService restService, LocaleMessage localeMessage) {
+	public PlayerRestController(PlayerService restService, LocaleMessage localeMessage) {
 		super(restService);
 		this.localeMessage = localeMessage;
 	}

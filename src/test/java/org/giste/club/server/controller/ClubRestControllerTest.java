@@ -33,8 +33,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ClubController.class)
-public class ClubControllerTest extends CrudeRestControllerTest<ClubDto> {
+@WebMvcTest(ClubRestController.class)
+public class ClubRestControllerTest extends CrudeRestControllerTest<ClubDto> {
 
 	private final static String PATH_CLUBS = "/rest/clubs";
 	private final static String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";

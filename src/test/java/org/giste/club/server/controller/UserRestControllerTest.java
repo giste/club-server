@@ -32,8 +32,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
-public class UserControllerTest extends CrudRestControllerTest<UserDto> {
+@WebMvcTest(UserRestController.class)
+public class UserRestControllerTest extends CrudRestControllerTest<UserDto> {
 
 	private final static String PATH_USERS = "/rest/users";
 

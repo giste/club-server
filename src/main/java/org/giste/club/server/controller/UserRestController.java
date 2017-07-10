@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/rest/users")
-public class UserController extends CrudRestController<UserDto> {
+class UserRestController extends CrudRestController<UserDto> {
 
 	final LocaleMessage localeMessage;
 
@@ -20,7 +20,7 @@ public class UserController extends CrudRestController<UserDto> {
 	 * @param service Service used by controller.
 	 * @param localeMessage Bean for retrieve localized messages.
 	 */
-	public UserController(UserService service, LocaleMessage localeMessage) {
+	public UserRestController(UserService service, LocaleMessage localeMessage) {
 		super(service);
 		this.localeMessage = localeMessage;
 	}

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rest/clubs")
-public class ClubController extends CrudeRestController<ClubDto> {
+class ClubRestController extends CrudeRestController<ClubDto> {
 
 	private final LocaleMessage localeMessage;
 
@@ -26,7 +26,7 @@ public class ClubController extends CrudeRestController<ClubDto> {
 	 * @param clubService {@link ClubService} for managing club requests.
 	 * @param localeMessage Bean for getting localized messages.
 	 */
-	public ClubController(final ClubService clubService, LocaleMessage localeMessage) {
+	public ClubRestController(final ClubService clubService, LocaleMessage localeMessage) {
 		super(clubService);
 		this.localeMessage = localeMessage;
 	}
