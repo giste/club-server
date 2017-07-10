@@ -5,6 +5,7 @@ import org.giste.club.server.service.ClubService;
 import org.giste.spring.server.controller.CrudeRestController;
 import org.giste.spring.server.service.exception.DuplicatedPropertyException;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Giste
  */
 @RestController
-@RequestMapping("/clubs")
+@RequestMapping(value = "/clubs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 class ClubRestController extends CrudeRestController<ClubDto> {
 
 	private final LocaleMessage localeMessage;
