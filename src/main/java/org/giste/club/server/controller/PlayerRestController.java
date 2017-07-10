@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Giste
  */
 @RestController
-@RequestMapping("/rest/players")
+@RequestMapping("/players")
 class PlayerRestController extends CrudeRestController<PlayerDto> {
 
 	private final LocaleMessage localeMessage;

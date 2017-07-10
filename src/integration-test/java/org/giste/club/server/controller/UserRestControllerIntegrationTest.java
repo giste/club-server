@@ -29,7 +29,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @DatabaseSetup("user-entries.xml")
 public class UserRestControllerIntegrationTest extends CrudRestControllerIntegrationTest<UserDto> {
 
-	private final static String PATH_USERS = "/rest/users";
+	private final static String PATH_USERS = "/users";
 
 	@Override
 	protected void checkDto(UserDto dto, UserDto target, boolean checkId) {

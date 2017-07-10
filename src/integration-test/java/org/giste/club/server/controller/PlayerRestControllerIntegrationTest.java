@@ -30,7 +30,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @DatabaseSetup("player-entries.xml")
 public class PlayerRestControllerIntegrationTest extends CrudeRestControllerIntegrationTest<PlayerDto> {
 
-	private final static String PATH_PLAYERS = "/rest/players";
+	private final static String PATH_PLAYERS = "/players";
 
 	@Override
 	protected void checkDto(PlayerDto dto, PlayerDto target, boolean checkId) {

@@ -33,7 +33,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @DatabaseSetup("club-entries.xml")
 public class ClubRestControllerIntegrationTest extends CrudeRestControllerIntegrationTest<ClubDto> {
 
-	private final static String PATH_CLUBS = "/rest/clubs";
+	private final static String PATH_CLUBS = "/clubs";
 
 	@Test
 	public void createDuplicatedAcronym() {

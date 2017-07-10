@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(ClubRestController.class)
 public class ClubRestControllerTest extends CrudeRestControllerTest<ClubDto> {
 
-	private final static String PATH_CLUBS = "/rest/clubs";
+	private final static String PATH_CLUBS = "/clubs";
 	private final static String PATH_CLUBS_ID = PATH_CLUBS + "/{id}";
 
 	@Autowired

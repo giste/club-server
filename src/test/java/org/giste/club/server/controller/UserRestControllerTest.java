@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(UserRestController.class)
 public class UserRestControllerTest extends CrudRestControllerTest<UserDto> {
 
-	private final static String PATH_USERS = "/rest/users";
+	private final static String PATH_USERS = "/users";
 
 	@Autowired
 	private MockMvc mvc;
