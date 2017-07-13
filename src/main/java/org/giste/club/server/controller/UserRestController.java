@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 class UserRestController extends CrudRestController<UserDto> {
 
-	final LocaleMessage localeMessage;
+	private final LocaleMessage localeMessage;
 
 	/**
 	 * Constructs a new user controller.
