@@ -63,8 +63,8 @@ public class CategoryRestControllerTest extends CrudRestControllerTest<CategoryD
 
 	@Override
 	protected CategoryDto getInvalidDto(CategoryDto dto) {
-		dto.setMinAge(102);
-		dto.setMaxAge(-2);
+		dto.setMinAge(105);
+		dto.setMaxAge(103);
 
 		return dto;
 	}
@@ -82,7 +82,8 @@ public class CategoryRestControllerTest extends CrudRestControllerTest<CategoryD
 	@Override
 	protected void checkInvalidProperties(ResultActions result) throws Exception {
 		result.andExpect(jsonPath("$.fieldErrorList", hasSize(2)))
-				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("minAge", "maxAge")));
+				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("maxAge", "maxAge")));
+				//.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("minAge", "maxAge")));
 	}
 
 	@Override

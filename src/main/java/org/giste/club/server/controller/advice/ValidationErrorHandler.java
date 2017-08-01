@@ -5,6 +5,8 @@ import java.util.List;
 import org.giste.spring.util.error.dto.FieldErrorDto;
 import org.giste.spring.util.error.dto.RestErrorDto;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ValidationErrorHandler {
 
+	final Logger LOGGER = LoggerFactory.getLogger(getClass());
+	
 	private LocaleMessage localeMessage;
 
 	/**
@@ -48,11 +52,15 @@ public class ValidationErrorHandler {
 		BindingResult result = e.getBindingResult();
 		List<FieldError> fieldErrors = result.getFieldErrors();
 
+		LOGGER.debug("Result {}", result);
+		
 		RestErrorDto validationErrorDto = new RestErrorDto(HttpStatus.BAD_REQUEST, "10001000", "Validation error", "");
 
 		for (FieldError fieldError : fieldErrors) {
 			String localizedErrorMessage = localeMessage.getMessage(fieldError);
 			validationErrorDto.addFieldError(new FieldErrorDto(fieldError.getField(), localizedErrorMessage));
+			
+			LOGGER.debug("Added validation error: {}", fieldError);
 		}
 
 		return validationErrorDto;
