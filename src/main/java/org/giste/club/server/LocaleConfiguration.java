@@ -2,6 +2,7 @@ package org.giste.club.server;
 
 import org.giste.spring.util.locale.LocaleMessage;
 import org.giste.spring.util.locale.LocaleMessageImpl;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -26,7 +27,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 	 * @return The MessageSource bean.
 	 */
 	@Bean
-	public ReloadableResourceBundleMessageSource messageSource() {
+	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setBasenames("classpath:i18n/messages", "classpath:i18n/errors");
 		source.setFallbackToSystemLocale(false);
