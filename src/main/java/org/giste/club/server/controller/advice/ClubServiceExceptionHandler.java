@@ -1,6 +1,6 @@
 package org.giste.club.server.controller.advice;
 
-import org.giste.spring.server.controller.advice.ServiceExceptionHandler;
+import org.giste.spring.rest.server.controller.advice.ServiceExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**

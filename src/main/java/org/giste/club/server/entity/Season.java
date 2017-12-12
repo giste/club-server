@@ -1,11 +1,9 @@
 package org.giste.club.server.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import org.giste.spring.server.entity.BaseEntity;
+import org.giste.spring.data.entity.BaseEntity;
 
 /**
  * Entity for a season. A season is anchored to the year it begins. The season
@@ -14,18 +12,16 @@ import org.giste.spring.server.entity.BaseEntity;
  * @author Giste
  */
 @Entity
-public class Season extends BaseEntity implements Serializable {
-
-	private static final long serialVersionUID = 1947801841843398806L;
+public class Season extends BaseEntity {
 
 	// Year when the season begins.
 	@Column(unique = true)
 	private Integer year;
 
 	/**
-	 * Constructor without parameters.
+	 * Constructor without parameters for JPA.
 	 */
-	public Season() {
+	protected Season() {
 
 	}
 
@@ -61,6 +57,31 @@ public class Season extends BaseEntity implements Serializable {
 	@Override
 	public String toString() {
 		return String.format("Season [id=%s, year=%s]", id, year);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((year == null) ? 0 : year.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Season other = (Season) obj;
+		if (year == null) {
+			if (other.year != null)
+				return false;
+		} else if (!year.equals(other.year))
+			return false;
+		return true;
 	}
 
 }

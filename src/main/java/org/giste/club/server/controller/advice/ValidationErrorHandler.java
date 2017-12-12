@@ -2,8 +2,8 @@ package org.giste.club.server.controller.advice;
 
 import java.util.List;
 
-import org.giste.spring.util.error.dto.FieldErrorDto;
-import org.giste.spring.util.error.dto.RestErrorDto;
+import org.giste.spring.rest.server.error.FieldErrorDto;
+import org.giste.spring.rest.server.error.RestErrorDto;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
