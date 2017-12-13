@@ -26,7 +26,7 @@ public class SeasonEntityMapper implements EntityMapper<Season, SeasonDto> {
 	@Override
 	public Season updateFromDto(Season entity, SeasonDto dto) {
 		entity.setYear(dto.getYear());
-		
+
 		return entity;
 	}
 

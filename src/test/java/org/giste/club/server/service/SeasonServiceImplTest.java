@@ -27,7 +27,7 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 	private SeasonRepository repository;
 	@MockBean
 	private LocaleMessage localeMessage;
-	
+
 	@Override
 	protected SeasonServiceImpl getTestService() {
 		return new SeasonServiceImpl(repository, localeMessage, getEntityDtoMapper());
@@ -57,23 +57,22 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 	public void findCurrentIsOk() {
 		Season season = new Season(1L, 2017);
 		when(repository.findFirstByOrderByYearDesc()).thenReturn(Optional.of(season));
-		
+
 		SeasonDto dto = getTestService().findCurrent();
-		
+
 		assertThat(dto.getId(), is(season.getId()));
 		assertThat(dto.getYear(), is(season.getYear()));
 	}
-	
+
 	@Test
 	public void findCurrentEntityNotFound() {
 		when(repository.findFirstByOrderByYearDesc()).thenReturn(Optional.ofNullable(null));
-		
+
 		try {
 			getTestService().findCurrent();
 			fail("EntityNotFoundException expected");
-		}
-		catch (EntityNotFoundException e) {
-			//assertThat(e.getId(), is(null));
+		} catch (EntityNotFoundException e) {
+			// assertThat(e.getId(), is(null));
 		}
 	}
 }

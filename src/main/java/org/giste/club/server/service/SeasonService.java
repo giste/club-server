@@ -4,7 +4,18 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.spring.rest.server.service.CrudService;
 import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
 
+/**
+ * Service for Season entities.
+ * 
+ * @author Giste
+ */
 public interface SeasonService extends CrudService<SeasonDto> {
 
+	/**
+	 * Finds the current season, the one with most recent year.
+	 * 
+	 * @return The current season.
+	 * @throws EntityNotFoundException If there is no season defined.
+	 */
 	SeasonDto findCurrent() throws EntityNotFoundException;
 }

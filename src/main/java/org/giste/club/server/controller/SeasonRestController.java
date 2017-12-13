@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for season entities.
+ * 
+ * @author Giste
+ */
 @RestController
 @RequestMapping(value = "/seasons", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class SeasonRestController extends CrudRestController<SeasonDto> {
 
 	private final LocaleMessage localeMessage;
-	
+
 	public SeasonRestController(SeasonService service, LocaleMessage localeMessage) {
 		super(service);
 		this.localeMessage = localeMessage;
@@ -35,6 +40,12 @@ public class SeasonRestController extends CrudRestController<SeasonDto> {
 		return new DuplicatedPropertyException(code, message, developerInfo);
 	}
 
+	/**
+	 * Gets the current season. It's the one of the most recent year.
+	 * 
+	 * @return The current season.
+	 * @throws EntityNotFoundException If there is no season defined.
+	 */
 	@GetMapping("/current")
 	private SeasonDto findCurrent() throws EntityNotFoundException {
 		return getService().findCurrent();
@@ -44,5 +55,5 @@ public class SeasonRestController extends CrudRestController<SeasonDto> {
 	protected SeasonService getService() {
 		return (SeasonService) super.getService();
 	}
-	
+
 }

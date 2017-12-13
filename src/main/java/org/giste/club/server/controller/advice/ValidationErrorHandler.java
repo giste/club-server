@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ValidationErrorHandler {
 
 	final Logger LOGGER = LoggerFactory.getLogger(getClass());
-	
+
 	private LocaleMessage localeMessage;
 
 	/**
@@ -42,8 +42,8 @@ public class ValidationErrorHandler {
 	 * Process the validation errors.
 	 * 
 	 * @param e Exception that fires this handler.
-	 * @return {@link ValidationErrorDto} with the list of {@link FieldErrorDto}
-	 *         for each field with validation error.
+	 * @return {@link ValidationErrorDto} with the list of {@link FieldErrorDto} for
+	 *         each field with validation error.
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -53,13 +53,13 @@ public class ValidationErrorHandler {
 		List<FieldError> fieldErrors = result.getFieldErrors();
 
 		LOGGER.debug("Result {}", result);
-		
+
 		RestErrorDto validationErrorDto = new RestErrorDto(HttpStatus.BAD_REQUEST, "10001000", "Validation error", "");
 
 		for (FieldError fieldError : fieldErrors) {
 			String localizedErrorMessage = localeMessage.getMessage(fieldError);
 			validationErrorDto.addFieldError(new FieldErrorDto(fieldError.getField(), localizedErrorMessage));
-			
+
 			LOGGER.debug("Added validation error: {}", fieldError);
 		}
 

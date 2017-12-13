@@ -12,21 +12,34 @@ import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link SeasonService}.
+ * 
+ * @author Giste
+ */
 @Service
 public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implements SeasonService {
 
 	private LocaleMessage localeMessage;
-	
-	public SeasonServiceImpl(CrudRepository<Season> repository, LocaleMessage localeMessage, EntityMapper<Season, SeasonDto> mapper) {
+
+	/**
+	 * Creates the service to manage seasons.
+	 * 
+	 * @param repository {@link SeasonRepository} for persist seasons.
+	 * @param localeMessage Bean for load localized messages.
+	 * @param mapper Helper class for mapping between season entity and DTO.
+	 */
+	public SeasonServiceImpl(CrudRepository<Season> repository, LocaleMessage localeMessage,
+			EntityMapper<Season, SeasonDto> mapper) {
 		super(repository, mapper);
 		this.localeMessage = localeMessage;
 	}
 
 	@Override
 	public SeasonDto findCurrent() throws EntityNotFoundException {
-		
+
 		Optional<Season> season = getRepository().findFirstByOrderByYearDesc();
-		
+
 		if (!season.isPresent()) {
 			final String code = localeMessage.getMessage("error.club.server.baseError")
 					+ localeMessage.getMessage("error.entityNotFound.season.current.code");
@@ -35,7 +48,7 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 
 			throw new EntityNotFoundException(null, code, message, developerInfo);
 		}
-		
+
 		return getEntityMapper().toDto(season.get());
 	}
 

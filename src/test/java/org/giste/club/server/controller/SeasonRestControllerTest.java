@@ -120,29 +120,29 @@ public class SeasonRestControllerTest extends CrudRestControllerTest<SeasonDto> 
 		verify(seasonService).create(any(SeasonDto.class));
 		verifyNoMoreInteractions(seasonService);
 	}
-	
+
 	@Test
 	public void findCurrentIsOk() throws Exception {
 		SeasonDto season = new SeasonDto(1L, 2017);
-		
+
 		when(seasonService.findCurrent()).thenReturn(season);
-		
+
 		this.mvc.perform(get(PATH_SEASONS_CURRENT)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.id", is(1)))
 				.andExpect(jsonPath("$.year", is(2017)));
-		
+
 		verify(seasonService).findCurrent();
 		verifyNoMoreInteractions(seasonService);
 	}
-	
+
 	@Test
 	public void findCurrentEntityNotFound() throws Exception {
 		EntityNotFoundException enfe = new EntityNotFoundException(null, "Code", "Message", "Developer info");
 		when(seasonService.findCurrent()).thenThrow(enfe);
-		
+
 		this.mvc.perform(get(PATH_SEASONS_CURRENT)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isNotFound())
@@ -150,7 +150,7 @@ public class SeasonRestControllerTest extends CrudRestControllerTest<SeasonDto> 
 				.andExpect(jsonPath("$.code", is(enfe.getCode())))
 				.andExpect(jsonPath("$.message", is(enfe.getMessage())))
 				.andExpect(jsonPath("$.developerInfo", is(enfe.getDeveloperInfo())));
-		
+
 		verify(seasonService).findCurrent();
 		verifyNoMoreInteractions(seasonService);
 	}
