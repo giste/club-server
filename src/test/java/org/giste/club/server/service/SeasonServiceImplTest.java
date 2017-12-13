@@ -66,14 +66,14 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 	
 	@Test
 	public void findCurrentEntityNotFound() {
-		when(repository.findFirstByOrderByYearDesc()).thenThrow(new EntityNotFoundException(null, "Code", "Message", "Developer info"));
+		when(repository.findFirstByOrderByYearDesc()).thenReturn(Optional.ofNullable(null));
 		
 		try {
 			getTestService().findCurrent();
 			fail("EntityNotFoundException expected");
 		}
 		catch (EntityNotFoundException e) {
-			assertThat(e.getCode(), is("Code"));
+			//assertThat(e.getId(), is(null));
 		}
 	}
 }

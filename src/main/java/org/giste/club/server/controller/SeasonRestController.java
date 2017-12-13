@@ -4,8 +4,10 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.rest.server.controller.CrudRestController;
 import org.giste.spring.rest.server.service.exception.DuplicatedPropertyException;
+import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,4 +35,14 @@ public class SeasonRestController extends CrudRestController<SeasonDto> {
 		return new DuplicatedPropertyException(code, message, developerInfo);
 	}
 
+	@GetMapping("/current")
+	private SeasonDto findCurrent() throws EntityNotFoundException {
+		return getService().findCurrent();
+	}
+
+	@Override
+	protected SeasonService getService() {
+		return (SeasonService) super.getService();
+	}
+	
 }

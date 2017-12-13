@@ -25,23 +25,22 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		// DirtiesContextTestExecutionListener.class,
-		// TransactionalTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 @DatabaseSetup("season-entries.xml")
 public class SeasonRestControllerIntegrationTest extends CrudRestControllerIntegrationTest<SeasonDto> {
 
 	private final static String PATH_SEASONS = "/seasons";
-	
+	private final static String PATH_SEASONS_CURRENT = "/seasons/current";
+
 	@Override
 	protected List<SeasonDto> getDtoList() {
 		SeasonDto season1 = new SeasonDto(1L, 2017);
 		SeasonDto season2 = new SeasonDto(2L, 2018);
-		
+
 		List<SeasonDto> seasonList = new ArrayList<>();
 		seasonList.add(season1);
 		seasonList.add(season2);
-		
+
 		return seasonList;
 	}
 
@@ -53,14 +52,14 @@ public class SeasonRestControllerIntegrationTest extends CrudRestControllerInteg
 	@Override
 	protected SeasonDto getInvalidDto(SeasonDto dto) {
 		dto.setYear(2000);
-		
+
 		return dto;
 	}
 
 	@Override
 	protected SeasonDto getUpdatedDto(SeasonDto dto) {
 		dto.setYear(2019);
-		
+
 		return dto;
 	}
 
@@ -93,10 +92,17 @@ public class SeasonRestControllerIntegrationTest extends CrudRestControllerInteg
 	public void createDuplicatedYear() {
 		SeasonDto season = new SeasonDto();
 		season.setYear(getDtoList().get(0).getYear());
-		
+
 		RestErrorDto restError = getRestTemplate().postForObject(getPathBase(), season, RestErrorDto.class);
-		
+
 		assertThat(restError.getStatus(), is(HttpStatus.CONFLICT));
 		assertThat(restError.getCode(), is("10001003"));
+	}
+
+	@Test
+	public void findCurrent() {
+		SeasonDto season = getRestTemplate().getForObject(PATH_SEASONS_CURRENT, SeasonDto.class);
+
+		assertThat(season, is(getDtoList().get(1)));
 	}
 }
