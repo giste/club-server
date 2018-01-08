@@ -1,7 +1,7 @@
 package org.giste.club.server.service;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.spring.data.service.CrudService;
+import org.giste.spring.data.service.BaseService;
 import org.giste.spring.data.service.exception.EntityNotFoundException;
 
 /**
@@ -9,7 +9,7 @@ import org.giste.spring.data.service.exception.EntityNotFoundException;
  * 
  * @author Giste
  */
-public interface SeasonService extends CrudService<SeasonDto> {
+public interface SeasonService extends BaseService<SeasonDto> {
 
 	/**
 	 * Finds the current season, the one with most recent year.

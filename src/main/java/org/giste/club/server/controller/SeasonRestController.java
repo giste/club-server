@@ -4,7 +4,7 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.data.service.exception.DuplicatedPropertyException;
 import org.giste.spring.data.service.exception.EntityNotFoundException;
-import org.giste.spring.rest.server.controller.CrudRestController;
+import org.giste.spring.rest.server.controller.BaseRestController;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/seasons", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SeasonRestController extends CrudRestController<SeasonDto> {
+public class SeasonRestController extends BaseRestController<SeasonDto> {
 
 	private final LocaleMessage localeMessage;
 

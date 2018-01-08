@@ -13,7 +13,7 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
-import org.giste.spring.data.service.CrudServiceImplTest;
+import org.giste.spring.data.service.BaseServiceImplTest;
 import org.giste.spring.data.service.EntityMapper;
 import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
@@ -23,7 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season> {
+public class SeasonServiceImplTest extends BaseServiceImplTest<SeasonDto, Season> {
 
 	@MockBean
 	private SeasonRepository repository;

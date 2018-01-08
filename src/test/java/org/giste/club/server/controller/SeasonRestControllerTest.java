@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.data.service.exception.EntityNotFoundException;
-import org.giste.spring.rest.server.controller.CrudRestControllerTest;
+import org.giste.spring.rest.server.controller.BaseRestControllerTest;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SeasonRestController.class)
-public class SeasonRestControllerTest extends CrudRestControllerTest<SeasonDto> {
+public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> {
 
 	private final static String PATH_SEASONS = "/seasons";
 	private final static String PATH_SEASONS_CURRENT = "/seasons/current";
