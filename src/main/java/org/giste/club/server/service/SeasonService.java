@@ -1,8 +1,8 @@
 package org.giste.club.server.service;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.spring.rest.server.service.CrudService;
-import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
+import org.giste.spring.data.service.CrudService;
+import org.giste.spring.data.service.exception.EntityNotFoundException;
 
 /**
  * Service for Season entities.

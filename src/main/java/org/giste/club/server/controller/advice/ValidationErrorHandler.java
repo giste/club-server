@@ -2,9 +2,9 @@ package org.giste.club.server.controller.advice;
 
 import java.util.List;
 
-import org.giste.spring.rest.server.error.FieldErrorDto;
-import org.giste.spring.rest.server.error.RestErrorDto;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.giste.spring.util.rest.error.FieldErrorDto;
+import org.giste.spring.util.rest.error.RestErrorDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

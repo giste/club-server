@@ -19,5 +19,13 @@ public interface SeasonRepository extends CrudRepository<Season> {
 	 * @return The current season.
 	 */
 	Optional<Season> findFirstByOrderByYearDesc();
+	
+	/**
+	 * Finds a season by its year.
+	 * 
+	 * @param year Year of the season to find.
+	 * @return The found season.
+	 */
+	Optional<Season> findByYear(Integer year);
 
 }

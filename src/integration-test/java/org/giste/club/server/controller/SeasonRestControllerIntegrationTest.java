@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.spring.rest.server.controller.CrudRestControllerIntegrationTest;
-import org.giste.spring.rest.server.error.RestErrorDto;
+import org.giste.spring.util.rest.error.RestErrorDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

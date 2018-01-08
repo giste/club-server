@@ -6,9 +6,10 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
-import org.giste.spring.rest.server.service.CrudServiceImpl;
-import org.giste.spring.rest.server.service.EntityMapper;
-import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
+import org.giste.spring.data.service.CrudServiceImpl;
+import org.giste.spring.data.service.EntityMapper;
+import org.giste.spring.data.service.exception.DuplicatedPropertyException;
+import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +67,21 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 	@Override
 	protected SeasonRepository getRepository() {
 		return (SeasonRepository) super.getRepository();
+	}
+
+	@Override
+	protected void checkForDuplicatedProperties(Season entity) throws DuplicatedPropertyException {
+		// TODO Auto-generated method stub
+		Optional<Season> season = getRepository().findByYear(entity.getYear());
+		if(season.isPresent()) {
+			final Integer[] params = { entity.getYear() };
+			final String code = localeMessage.getMessage("error.club.server.baseError")
+					+ localeMessage.getMessage("error.duplicatedProperty.season.year.code");
+			final String message = localeMessage.getMessage("error.duplicatedProperty.season.year.message", params);
+			final String developerInfo = localeMessage.getMessage("error.duplicatedProperty.season.year.developerInfo");
+			
+			throw new DuplicatedPropertyException(code, message, developerInfo);
+		}
 	}
 
 }

@@ -3,6 +3,8 @@ package org.giste.club.server.service;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -11,9 +13,9 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
-import org.giste.spring.rest.server.service.CrudServiceImplTest;
-import org.giste.spring.rest.server.service.EntityMapper;
-import org.giste.spring.rest.server.service.exception.EntityNotFoundException;
+import org.giste.spring.data.service.CrudServiceImplTest;
+import org.giste.spring.data.service.EntityMapper;
+import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +32,7 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 
 	@Override
 	protected SeasonServiceImpl getTestService() {
-		return new SeasonServiceImpl(repository, localeMessage, getEntityDtoMapper());
+		return new SeasonServiceImpl(repository, localeMessage, getEntityMapper());
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 	}
 
 	@Override
-	protected EntityMapper<Season, SeasonDto> getEntityDtoMapper() {
+	protected EntityMapper<Season, SeasonDto> getEntityMapper() {
 		return new SeasonEntityMapper();
 	}
 
@@ -74,5 +76,23 @@ public class SeasonServiceImplTest extends CrudServiceImplTest<SeasonDto, Season
 		} catch (EntityNotFoundException e) {
 			// assertThat(e.getId(), is(null));
 		}
+	}
+
+	@Override
+	protected void mockDuplicatedPropertyNotFound() {
+		when(repository.findByYear(any(Integer.class))).thenReturn(Optional.ofNullable(null));
+		
+	}
+
+	@Override
+	protected void mockDuplicatedPropertyFound() {
+		Season season = new Season(1L, 2017);
+		when(repository.findByYear(season.getYear())).thenReturn(Optional.of(season));
+		
+	}
+
+	@Override
+	protected void verifyCallToCheckDuplicatedProperties() {
+		verify(repository).findByYear(2017);
 	}
 }

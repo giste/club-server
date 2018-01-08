@@ -2,7 +2,7 @@ package org.giste.club.server.service;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
-import org.giste.spring.rest.server.service.EntityMapper;
+import org.giste.spring.data.service.EntityMapper;
 import org.springframework.stereotype.Component;
 
 /**
