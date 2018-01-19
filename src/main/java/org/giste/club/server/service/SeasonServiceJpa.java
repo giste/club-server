@@ -1,16 +1,18 @@
 package org.giste.club.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
-import org.giste.spring.data.service.CrudServiceImpl;
+import org.giste.spring.data.service.BaseServiceJpa;
 import org.giste.spring.data.service.EntityMapper;
-import org.giste.spring.data.service.exception.DuplicatedPropertyException;
-import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.giste.util.service.exception.DuplicatedPropertyException;
+import org.giste.util.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @author Giste
  */
 @Service
-public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implements SeasonService {
+public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implements SeasonService {
 
 	private LocaleMessage localeMessage;
 
@@ -30,7 +32,7 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 	 * @param localeMessage Bean for load localized messages.
 	 * @param mapper Helper class for mapping between season entity and DTO.
 	 */
-	public SeasonServiceImpl(CrudRepository<Season> repository, LocaleMessage localeMessage,
+	public SeasonServiceJpa(CrudRepository<Season> repository, LocaleMessage localeMessage,
 			EntityMapper<Season, SeasonDto> mapper) {
 		super(repository, mapper);
 		this.localeMessage = localeMessage;
@@ -45,9 +47,23 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 			final String code = localeMessage.getMessage("error.club.server.baseError")
 					+ localeMessage.getMessage("error.entityNotFound.season.current.code");
 			final String message = localeMessage.getMessage("error.entityNotFound.season.current.message");
-			final String developerInfo = localeMessage.getMessage("error.entityNotFound.season.current.developerInfo");
 
-			throw new EntityNotFoundException(null, code, message, developerInfo);
+			throw new EntityNotFoundException(null, code, message);
+		}
+
+		return getEntityMapper().toDto(season.get());
+	}
+
+	@Override
+	public SeasonDto findByYear(Integer year) throws EntityNotFoundException {
+		Optional<Season> season = getRepository().findByYear(year);
+
+		if (!season.isPresent()) {
+			final String code = localeMessage.getMessage("error.club.server.baseError")
+					+ localeMessage.getMessage("error.entityNotFound.season.current.code");
+			final String message = localeMessage.getMessage("error.entityNotFound.season.current.message");
+
+			throw new EntityNotFoundException(null, code, message);
 		}
 
 		return getEntityMapper().toDto(season.get());
@@ -59,9 +75,8 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 		final String code = localeMessage.getMessage("error.club.server.baseError")
 				+ localeMessage.getMessage("error.entityNotFound.season.id.code");
 		final String message = localeMessage.getMessage("error.entityNotFound.season.id.message", params);
-		final String developerInfo = localeMessage.getMessage("error.entityNotFound.season.id.developerInfo");
 
-		return new EntityNotFoundException(id, code, message, developerInfo);
+		return new EntityNotFoundException(id, code, message);
 	}
 
 	@Override
@@ -70,17 +85,16 @@ public class SeasonServiceImpl extends CrudServiceImpl<SeasonDto, Season> implem
 	}
 
 	@Override
-	protected void checkForDuplicatedProperties(Season entity) throws DuplicatedPropertyException {
-		// TODO Auto-generated method stub
-		Optional<Season> season = getRepository().findByYear(entity.getYear());
-		if(season.isPresent()) {
-			final Integer[] params = { entity.getYear() };
-			final String code = localeMessage.getMessage("error.club.server.baseError")
-					+ localeMessage.getMessage("error.duplicatedProperty.season.year.code");
-			final String message = localeMessage.getMessage("error.duplicatedProperty.season.year.message", params);
-			final String developerInfo = localeMessage.getMessage("error.duplicatedProperty.season.year.developerInfo");
-			
-			throw new DuplicatedPropertyException(code, message, developerInfo);
+	protected void checkForDuplicatedProperties(SeasonDto dto, Season entity) throws DuplicatedPropertyException {
+		List<String> duplicatedProperties = new ArrayList<>();
+
+		Optional<Season> existingEntity = getRepository().findByYear(dto.getYear());
+		if (existingEntity.isPresent()) {
+			duplicatedProperties.add("year");
+		}
+
+		if (!duplicatedProperties.isEmpty()) {
+			throw new DuplicatedPropertyException("code", "message", "simpleEntity", duplicatedProperties);
 		}
 	}
 

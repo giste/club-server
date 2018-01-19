@@ -1,10 +1,13 @@
 package org.giste.club.server.service;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.spring.data.service.BaseServiceImplIntegrationTest;
+import org.giste.spring.data.service.BaseServiceJpaIntegrationTest;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +25,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
 		TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 @DatabaseSetup("classpath:datasets/season-entries.xml")
-public class SeasonServiceImplIntegrationTest extends BaseServiceImplIntegrationTest<SeasonDto> {
+public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTest<SeasonDto> {
 
 	@Autowired
 	private SeasonService service;
@@ -54,6 +57,11 @@ public class SeasonServiceImplIntegrationTest extends BaseServiceImplIntegration
 	@Override
 	protected void setDuplicatedProperties(SeasonDto dto) {
 		dto.setYear(getDtoList().get(0).getYear());
+	}
+
+	@Override
+	protected void checkDuplicatedProperties(List<String> duplicatedProperties) {
+		assertThat(duplicatedProperties.contains("year"), is(true));
 	}
 
 }

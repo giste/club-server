@@ -32,6 +32,7 @@ public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 		source.setBasenames("classpath:i18n/messages", "classpath:i18n/errors");
 		source.setFallbackToSystemLocale(false);
 		source.setDefaultEncoding("UTF-8");
+		source.setUseCodeAsDefaultMessage(true);
 
 		return source;
 	}

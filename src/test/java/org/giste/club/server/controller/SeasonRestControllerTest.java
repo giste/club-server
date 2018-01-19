@@ -13,17 +13,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
-import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.rest.server.controller.BaseRestControllerTest;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.giste.util.service.exception.DuplicatedPropertyException;
+import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -86,18 +93,6 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("year")));
 	}
 
-	@Override
-	protected ResultActions checkProperties(ResultActions result, SeasonDto target) throws Exception {
-		return super.checkProperties(result, target)
-				.andExpect(jsonPath("$.year", is(target.getYear())));
-	}
-
-	@Override
-	protected ResultActions checkListProperties(ResultActions result, SeasonDto target, int index) throws Exception {
-		return super.checkListProperties(result, target, index)
-				.andExpect(jsonPath("$[" + index + "].year", is(target.getYear())));
-	}
-
 	@Test
 	public void createDuplicatedYear() throws Exception {
 		final Integer DUPLICATED_YEAR = 2017;
@@ -105,10 +100,13 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 		final SeasonDto seasonDto = getNewDto();
 		seasonDto.setYear(DUPLICATED_YEAR);
 
+		List<String> properties = new ArrayList<>();
+		properties.add("year");
+
 		when(seasonService.create(any(SeasonDto.class)))
-				.thenThrow(new DataIntegrityViolationException("Message"));
+				.thenThrow(new DuplicatedPropertyException("0", "Message", "season", properties));
 		when(localeMessage.getMessage("error.club.server.baseError")).thenReturn("1000");
-		when(localeMessage.getMessage("error.duplicatedProperty.season.year.code")).thenReturn("1003");
+		when(localeMessage.getMessage("error.duplicatedProperty.season.code")).thenReturn("1003");
 
 		this.mvc.perform(post(PATH_SEASONS)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -140,7 +138,7 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 
 	@Test
 	public void findCurrentEntityNotFound() throws Exception {
-		EntityNotFoundException enfe = new EntityNotFoundException(null, "Code", "Message", "Developer info");
+		EntityNotFoundException enfe = new EntityNotFoundException(null, "Code", "Message");
 		when(seasonService.findCurrent()).thenThrow(enfe);
 
 		this.mvc.perform(get(PATH_SEASONS_CURRENT)
@@ -148,10 +146,27 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 				.andExpect(status().isNotFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.code", is(enfe.getCode())))
-				.andExpect(jsonPath("$.message", is(enfe.getMessage())))
-				.andExpect(jsonPath("$.developerInfo", is(enfe.getDeveloperInfo())));
+				.andExpect(jsonPath("$.message", is(enfe.getMessage())));
 
 		verify(seasonService).findCurrent();
 		verifyNoMoreInteractions(seasonService);
+	}
+
+	@Override
+	protected Set<String> getInvalidProperties() {
+		Set<String> invalidProperties = new HashSet<>();
+
+		invalidProperties.add("year");
+
+		return invalidProperties;
+	}
+
+	@Override
+	protected Map<String, Object> getPropertiesToCheck(SeasonDto dto) {
+		Map<String, Object> properties = new HashMap<>();
+
+		properties.put("year", dto.getYear());
+
+		return properties;
 	}
 }

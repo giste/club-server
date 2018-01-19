@@ -13,17 +13,17 @@ import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
-import org.giste.spring.data.service.BaseServiceImplTest;
+import org.giste.spring.data.service.BaseServiceJpaTest;
 import org.giste.spring.data.service.EntityMapper;
-import org.giste.spring.data.service.exception.EntityNotFoundException;
 import org.giste.spring.util.locale.LocaleMessage;
+import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-public class SeasonServiceImplTest extends BaseServiceImplTest<SeasonDto, Season> {
+public class SeasonServiceJpaTest extends BaseServiceJpaTest<SeasonDto, Season> {
 
 	@MockBean
 	private SeasonRepository repository;
@@ -31,8 +31,8 @@ public class SeasonServiceImplTest extends BaseServiceImplTest<SeasonDto, Season
 	private LocaleMessage localeMessage;
 
 	@Override
-	protected SeasonServiceImpl getTestService() {
-		return new SeasonServiceImpl(repository, localeMessage, getEntityMapper());
+	protected SeasonServiceJpa getTestService() {
+		return new SeasonServiceJpa(repository, localeMessage, getEntityMapper());
 	}
 
 	@Override
