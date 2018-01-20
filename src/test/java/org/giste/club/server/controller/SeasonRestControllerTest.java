@@ -1,30 +1,24 @@
 package org.giste.club.server.controller;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.rest.server.controller.BaseRestControllerTest;
 import org.giste.spring.util.locale.LocaleMessage;
-import org.giste.util.service.exception.DuplicatedPropertyException;
 import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,9 +28,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SeasonRestController.class)
@@ -47,8 +38,6 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 
 	@Autowired
 	private MockMvc mvc;
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	@MockBean
 	private SeasonService seasonService;
@@ -87,38 +76,6 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 		return SeasonDto.class;
 	}
 
-	@Override
-	protected void checkInvalidProperties(ResultActions result) throws Exception {
-		result.andExpect(jsonPath("$.fieldErrorList", hasSize(1)))
-				.andExpect(jsonPath("$.fieldErrorList[*].field", containsInAnyOrder("year")));
-	}
-
-	@Test
-	public void createDuplicatedYear() throws Exception {
-		final Integer DUPLICATED_YEAR = 2017;
-		final String DUPLICATED_YEAR_CODE = "10001003";
-		final SeasonDto seasonDto = getNewDto();
-		seasonDto.setYear(DUPLICATED_YEAR);
-
-		List<String> properties = new ArrayList<>();
-		properties.add("year");
-
-		when(seasonService.create(any(SeasonDto.class)))
-				.thenThrow(new DuplicatedPropertyException("0", "Message", "season", properties));
-		when(localeMessage.getMessage("error.club.server.baseError")).thenReturn("1000");
-		when(localeMessage.getMessage("error.duplicatedProperty.season.code")).thenReturn("1003");
-
-		this.mvc.perform(post(PATH_SEASONS)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsBytes(seasonDto)))
-				.andExpect(status().isConflict())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$.code", is(DUPLICATED_YEAR_CODE)));
-
-		verify(seasonService).create(any(SeasonDto.class));
-		verifyNoMoreInteractions(seasonService);
-	}
-
 	@Test
 	public void findCurrentIsOk() throws Exception {
 		SeasonDto season = new SeasonDto(1L, 2017);
@@ -153,12 +110,12 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	}
 
 	@Override
-	protected Set<String> getInvalidProperties() {
-		Set<String> invalidProperties = new HashSet<>();
+	protected Optional<List<String>> getInvalidProperties() {
+		List<String> invalidProperties = new ArrayList<>();
 
 		invalidProperties.add("year");
 
-		return invalidProperties;
+		return Optional.of(invalidProperties);
 	}
 
 	@Override
@@ -168,5 +125,14 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 		properties.put("year", dto.getYear());
 
 		return properties;
+	}
+
+	@Override
+	protected Optional<List<String>> getDuplicatedProperties() {
+		List<String> duplicatedProperties = new ArrayList<>();
+
+		duplicatedProperties.add("year");
+
+		return Optional.of(duplicatedProperties);
 	}
 }
