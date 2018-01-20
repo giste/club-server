@@ -1,10 +1,10 @@
 package org.giste.club.server.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.spring.data.service.BaseServiceJpaIntegrationTest;
@@ -29,7 +29,7 @@ public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTe
 
 	@Autowired
 	private SeasonService service;
-	
+
 	@Override
 	protected SeasonService getService() {
 		return service;
@@ -42,7 +42,7 @@ public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTe
 		List<SeasonDto> seasonList = new ArrayList<>();
 		seasonList.add(season1);
 		seasonList.add(season2);
-		
+
 		return seasonList;
 	}
 
@@ -50,7 +50,7 @@ public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTe
 	protected SeasonDto getNewDto() {
 		SeasonDto dto = new SeasonDto();
 		dto.setYear(2019);
-		
+
 		return dto;
 	}
 
@@ -60,8 +60,11 @@ public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTe
 	}
 
 	@Override
-	protected void checkDuplicatedProperties(List<String> duplicatedProperties) {
-		assertThat(duplicatedProperties.contains("year"), is(true));
+	protected Optional<Set<String>> getDuplicatedProperties() {
+		Set<String> properties = new HashSet<>();
+		properties.add("year");
+
+		return Optional.of(properties);
 	}
 
 }

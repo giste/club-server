@@ -1,8 +1,8 @@
 package org.giste.club.server.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
@@ -86,7 +86,7 @@ public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implemen
 
 	@Override
 	protected void checkForDuplicatedProperties(SeasonDto dto, Season entity) throws DuplicatedPropertyException {
-		List<String> duplicatedProperties = new ArrayList<>();
+		Set<String> duplicatedProperties = new HashSet<>();
 
 		Optional<Season> existingEntity = getRepository().findByYear(dto.getYear());
 		if (existingEntity.isPresent()) {
