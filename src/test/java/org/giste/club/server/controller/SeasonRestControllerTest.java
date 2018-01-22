@@ -11,9 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
@@ -128,8 +130,8 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	}
 
 	@Override
-	protected Optional<List<String>> getDuplicatedProperties() {
-		List<String> duplicatedProperties = new ArrayList<>();
+	protected Optional<Set<String>> getDuplicatedProperties() {
+		Set<String> duplicatedProperties = new HashSet<>();
 
 		duplicatedProperties.add("year");
 

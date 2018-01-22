@@ -8,13 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.spring.rest.server.controller.CrudRestControllerIntegrationTest;
-import org.giste.spring.util.rest.error.RestErrorDto;
+import org.giste.spring.rest.server.controller.BaseRestControllerIntegrationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -26,8 +24,8 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
-@DatabaseSetup("season-entries.xml")
-public class SeasonRestControllerIntegrationTest extends CrudRestControllerIntegrationTest<SeasonDto> {
+@DatabaseSetup("/datasets/season-entries.xml")
+public class SeasonRestControllerIntegrationTest extends BaseRestControllerIntegrationTest<SeasonDto> {
 
 	private final static String PATH_SEASONS = "/seasons";
 	private final static String PATH_SEASONS_CURRENT = "/seasons/current";
@@ -46,7 +44,7 @@ public class SeasonRestControllerIntegrationTest extends CrudRestControllerInteg
 
 	@Override
 	protected SeasonDto getNewDto() {
-		return new SeasonDto(1L, 2017);
+		return new SeasonDto(null, 2019);
 	}
 
 	@Override
@@ -86,17 +84,6 @@ public class SeasonRestControllerIntegrationTest extends CrudRestControllerInteg
 	@Override
 	protected List<String> getInvalidFields() {
 		return Arrays.asList("year");
-	}
-
-	@Test
-	public void createDuplicatedYear() {
-		SeasonDto season = new SeasonDto();
-		season.setYear(getDtoList().get(0).getYear());
-
-		RestErrorDto restError = getRestTemplate().postForObject(getPathBase(), season, RestErrorDto.class);
-
-		assertThat(restError.getStatus(), is(HttpStatus.CONFLICT));
-		assertThat(restError.getCode(), is("10001003"));
 	}
 
 	@Test
