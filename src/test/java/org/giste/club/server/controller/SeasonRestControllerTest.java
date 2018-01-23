@@ -20,7 +20,6 @@ import java.util.Set;
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.rest.server.controller.BaseRestControllerTest;
-import org.giste.spring.util.locale.LocaleMessage;
 import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,8 +42,6 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 
 	@MockBean
 	private SeasonService seasonService;
-	@MockBean
-	private LocaleMessage localeMessage;
 
 	@Override
 	protected SeasonService getService() {
@@ -62,10 +59,8 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	}
 
 	@Override
-	protected SeasonDto getInvalidDto(SeasonDto dto) {
+	protected void invalidateDto(SeasonDto dto) {
 		dto.setYear(2000);
-
-		return dto;
 	}
 
 	@Override
@@ -76,39 +71,6 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	@Override
 	protected Class<SeasonDto> getDtoType() {
 		return SeasonDto.class;
-	}
-
-	@Test
-	public void findCurrentIsOk() throws Exception {
-		SeasonDto season = new SeasonDto(1L, 2017);
-
-		when(seasonService.findCurrent()).thenReturn(season);
-
-		this.mvc.perform(get(PATH_SEASONS_CURRENT)
-				.contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$.id", is(1)))
-				.andExpect(jsonPath("$.year", is(2017)));
-
-		verify(seasonService).findCurrent();
-		verifyNoMoreInteractions(seasonService);
-	}
-
-	@Test
-	public void findCurrentEntityNotFound() throws Exception {
-		EntityNotFoundException enfe = new EntityNotFoundException(null, "Code", "Message");
-		when(seasonService.findCurrent()).thenThrow(enfe);
-
-		this.mvc.perform(get(PATH_SEASONS_CURRENT)
-				.contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(status().isNotFound())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$.code", is(enfe.getCode())))
-				.andExpect(jsonPath("$.message", is(enfe.getMessage())));
-
-		verify(seasonService).findCurrent();
-		verifyNoMoreInteractions(seasonService);
 	}
 
 	@Override
@@ -137,4 +99,42 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 
 		return Optional.of(duplicatedProperties);
 	}
+
+	@Test
+	public void findCurrentIsOk() throws Exception {
+		SeasonDto season = new SeasonDto(1L, 2017);
+
+		when(seasonService.findCurrent()).thenReturn(season);
+
+		this.mvc.perform(get(PATH_SEASONS_CURRENT)
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(jsonPath("$.id", is(1)))
+				.andExpect(jsonPath("$.year", is(2017)));
+
+		verify(seasonService).findCurrent();
+		verifyNoMoreInteractions(seasonService);
+	}
+
+	@Test
+	public void findCurrentEntityNotFound() throws Exception {
+		EntityNotFoundException enfe = new EntityNotFoundException("Season", "current", null, "Message");
+		when(seasonService.findCurrent()).thenThrow(enfe);
+		when(localeMessage.getMessage("error.entityNotFound.Season.current.code")).thenReturn("Code");
+		when(localeMessage.getMessage("error.entityNotFound.Season.current.message")).thenReturn("Message");
+		when(localeMessage.getMessage("error.entityNotFound.Season.current.developerInfo")).thenReturn("devInfo");
+
+		this.mvc.perform(get(PATH_SEASONS_CURRENT)
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isNotFound())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(jsonPath("$.code", is("Code")))
+				.andExpect(jsonPath("$.message", is("Message")))
+				.andExpect(jsonPath("$.developerInfo", is("devInfo")));
+
+		verify(seasonService).findCurrent();
+		verifyNoMoreInteractions(seasonService);
+	}
+
 }

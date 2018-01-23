@@ -44,11 +44,9 @@ public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implemen
 		Optional<Season> season = getRepository().findFirstByOrderByYearDesc();
 
 		if (!season.isPresent()) {
-			final String code = localeMessage.getMessage("error.club.server.baseError")
-					+ localeMessage.getMessage("error.entityNotFound.season.current.code");
 			final String message = localeMessage.getMessage("error.entityNotFound.season.current.message");
 
-			throw new EntityNotFoundException(null, code, message);
+			throw new EntityNotFoundException("Season", "current", null, message);
 		}
 
 		return getEntityMapper().toDto(season.get());
@@ -59,11 +57,9 @@ public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implemen
 		Optional<Season> season = getRepository().findByYear(year);
 
 		if (!season.isPresent()) {
-			final String code = localeMessage.getMessage("error.club.server.baseError")
-					+ localeMessage.getMessage("error.entityNotFound.season.current.code");
-			final String message = localeMessage.getMessage("error.entityNotFound.season.current.message");
+			final String message = localeMessage.getMessage("error.entityNotFound.season.year.message");
 
-			throw new EntityNotFoundException(null, code, message);
+			throw new EntityNotFoundException("Season", "year", year, message);
 		}
 
 		return getEntityMapper().toDto(season.get());
@@ -72,11 +68,9 @@ public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implemen
 	@Override
 	protected EntityNotFoundException getEntityNotFoundException(Long id) {
 		final Long[] params = { id };
-		final String code = localeMessage.getMessage("error.club.server.baseError")
-				+ localeMessage.getMessage("error.entityNotFound.season.id.code");
 		final String message = localeMessage.getMessage("error.entityNotFound.season.id.message", params);
 
-		return new EntityNotFoundException(id, code, message);
+		return new EntityNotFoundException("Season", "id", id, message);
 	}
 
 	@Override
@@ -94,7 +88,7 @@ public class SeasonServiceJpa extends BaseServiceJpa<SeasonDto, Season> implemen
 		}
 
 		if (!duplicatedProperties.isEmpty()) {
-			throw new DuplicatedPropertyException("code", "message", "simpleEntity", duplicatedProperties);
+			throw new DuplicatedPropertyException("message", "SimpleEntity", duplicatedProperties);
 		}
 	}
 

@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.spring.rest.server.controller.BaseRestControllerIntegrationTest;
@@ -48,17 +48,13 @@ public class SeasonRestControllerIntegrationTest extends BaseRestControllerInteg
 	}
 
 	@Override
-	protected SeasonDto getInvalidDto(SeasonDto dto) {
+	protected void invalidateDto(SeasonDto dto) {
 		dto.setYear(2000);
-
-		return dto;
 	}
 
 	@Override
-	protected SeasonDto getUpdatedDto(SeasonDto dto) {
+	protected void modifyDto(SeasonDto dto) {
 		dto.setYear(2019);
-
-		return dto;
 	}
 
 	@Override
@@ -82,8 +78,11 @@ public class SeasonRestControllerIntegrationTest extends BaseRestControllerInteg
 	}
 
 	@Override
-	protected List<String> getInvalidFields() {
-		return Arrays.asList("year");
+	protected Optional<List<String>> getInvalidProperties() {
+		List<String> invalidProperties = new ArrayList<>();
+		invalidProperties.add("year");
+		
+		return Optional.of(invalidProperties);
 	}
 
 	@Test
@@ -91,5 +90,13 @@ public class SeasonRestControllerIntegrationTest extends BaseRestControllerInteg
 		SeasonDto season = getRestTemplate().getForObject(PATH_SEASONS_CURRENT, SeasonDto.class);
 
 		assertThat(season, is(getDtoList().get(1)));
+	}
+
+	@Override
+	protected Optional<List<String>> getDuplicatedProperties() {
+		List<String> duplicatedProperties = new ArrayList<>();
+		duplicatedProperties.add("year");
+		
+		return Optional.of(duplicatedProperties);
 	}
 }
