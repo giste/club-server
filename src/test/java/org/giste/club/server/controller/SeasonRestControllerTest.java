@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.club.common.dto.SeasonTestHelper;
+import org.giste.club.server.dto.SeasonTestHelper;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.rest.server.controller.BaseRestControllerTest;
 import org.giste.util.dto.DtoTestHelper;

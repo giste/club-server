@@ -2,16 +2,16 @@ package org.giste.club.server.service;
 
 import org.giste.club.common.dto.SeasonDto;
 import org.giste.club.server.entity.Season;
-import org.giste.spring.data.service.EntityMapper;
+import org.giste.spring.data.service.EntityHelper;
 import org.springframework.stereotype.Component;
 
 /**
- * Implements the mapper between entity and DTO for a Season.
+ * Implements the helper for a Season.
  * 
  * @author Giste
  */
 @Component
-public class SeasonEntityMapper implements EntityMapper<Season, SeasonDto> {
+public class SeasonHelper implements EntityHelper<Season, SeasonDto> {
 
 	@Override
 	public SeasonDto toDto(Season entity) {
@@ -28,6 +28,11 @@ public class SeasonEntityMapper implements EntityMapper<Season, SeasonDto> {
 		entity.setYear(dto.getYear());
 
 		return entity;
+	}
+
+	@Override
+	public String getEntityName() {
+		return "Season";
 	}
 
 }

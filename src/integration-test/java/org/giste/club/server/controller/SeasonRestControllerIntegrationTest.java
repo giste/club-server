@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.club.common.dto.SeasonTestHelper;
+import org.giste.club.server.dto.SeasonTestHelper;
 import org.giste.spring.rest.server.controller.BaseRestControllerIntegrationTest;
 import org.giste.util.dto.DtoTestHelper;
 import org.junit.Test;

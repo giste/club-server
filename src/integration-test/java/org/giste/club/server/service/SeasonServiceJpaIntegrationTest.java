@@ -1,7 +1,7 @@
 package org.giste.club.server.service;
 
 import org.giste.club.common.dto.SeasonDto;
-import org.giste.club.common.dto.SeasonTestHelper;
+import org.giste.club.server.dto.SeasonTestHelper;
 import org.giste.spring.data.service.BaseServiceJpaIntegrationTest;
 import org.giste.util.dto.DtoTestHelper;
 import org.junit.runner.RunWith;

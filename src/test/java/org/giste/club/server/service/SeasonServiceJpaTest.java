@@ -14,7 +14,6 @@ import org.giste.club.server.entity.Season;
 import org.giste.club.server.repository.SeasonRepository;
 import org.giste.spring.data.repository.CrudRepository;
 import org.giste.spring.data.service.BaseServiceJpaTest;
-import org.giste.spring.data.service.EntityMapper;
 import org.giste.spring.util.locale.LocaleMessage;
 import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class SeasonServiceJpaTest extends BaseServiceJpaTest<SeasonDto, Season> 
 
 	@Override
 	protected SeasonServiceJpa getTestService() {
-		return new SeasonServiceJpa(repository, localeMessage, getEntityMapper());
+		return new SeasonServiceJpa(repository, getEntityHelper());
 	}
 
 	@Override
@@ -51,8 +50,8 @@ public class SeasonServiceJpaTest extends BaseServiceJpaTest<SeasonDto, Season> 
 	}
 
 	@Override
-	protected EntityMapper<Season, SeasonDto> getEntityMapper() {
-		return new SeasonEntityMapper();
+	protected SeasonHelper getEntityHelper() {
+		return new SeasonHelper();
 	}
 
 	@Test
@@ -81,14 +80,14 @@ public class SeasonServiceJpaTest extends BaseServiceJpaTest<SeasonDto, Season> 
 	@Override
 	protected void mockDuplicatedPropertyNotFound() {
 		when(repository.findByYear(any(Integer.class))).thenReturn(Optional.ofNullable(null));
-		
+
 	}
 
 	@Override
 	protected void mockDuplicatedPropertyFound() {
 		Season season = new Season(1L, 2017);
 		when(repository.findByYear(season.getYear())).thenReturn(Optional.of(season));
-		
+
 	}
 
 	@Override
