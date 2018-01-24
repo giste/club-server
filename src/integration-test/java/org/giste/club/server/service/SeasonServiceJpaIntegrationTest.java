@@ -1,13 +1,9 @@
 package org.giste.club.server.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import org.giste.club.common.dto.SeasonDto;
+import org.giste.club.common.dto.SeasonTestHelper;
 import org.giste.spring.data.service.BaseServiceJpaIntegrationTest;
+import org.giste.util.dto.DtoTestHelper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,41 +26,16 @@ public class SeasonServiceJpaIntegrationTest extends BaseServiceJpaIntegrationTe
 	@Autowired
 	private SeasonService service;
 
+	private SeasonTestHelper testHelper = new SeasonTestHelper();
+
 	@Override
 	protected SeasonService getService() {
 		return service;
 	}
 
 	@Override
-	protected List<SeasonDto> getDtoList() {
-		SeasonDto season1 = new SeasonDto(1L, 2017);
-		SeasonDto season2 = new SeasonDto(2L, 2018);
-		List<SeasonDto> seasonList = new ArrayList<>();
-		seasonList.add(season1);
-		seasonList.add(season2);
-
-		return seasonList;
-	}
-
-	@Override
-	protected SeasonDto getNewDto() {
-		SeasonDto dto = new SeasonDto();
-		dto.setYear(2019);
-
-		return dto;
-	}
-
-	@Override
-	protected void setDuplicatedProperties(SeasonDto dto) {
-		dto.setYear(getDtoList().get(0).getYear());
-	}
-
-	@Override
-	protected Optional<Set<String>> getDuplicatedProperties() {
-		Set<String> properties = new HashSet<>();
-		properties.add("year");
-
-		return Optional.of(properties);
+	protected DtoTestHelper<SeasonDto> getDtoTestHelper() {
+		return testHelper;
 	}
 
 }
