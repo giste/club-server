@@ -3,12 +3,10 @@ package org.giste.club.server.controller;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.giste.club.common.dto.SeasonDto;
+import org.giste.club.common.dto.SeasonTestHelper;
 import org.giste.spring.rest.server.controller.BaseRestControllerIntegrationTest;
+import org.giste.util.dto.DtoTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,42 +28,7 @@ public class SeasonRestControllerIntegrationTest extends BaseRestControllerInteg
 	private final static String PATH_SEASONS = "/seasons";
 	private final static String PATH_SEASONS_CURRENT = "/seasons/current";
 
-	@Override
-	protected List<SeasonDto> getDtoList() {
-		SeasonDto season1 = new SeasonDto(1L, 2017);
-		SeasonDto season2 = new SeasonDto(2L, 2018);
-
-		List<SeasonDto> seasonList = new ArrayList<>();
-		seasonList.add(season1);
-		seasonList.add(season2);
-
-		return seasonList;
-	}
-
-	@Override
-	protected SeasonDto getNewDto() {
-		return new SeasonDto(null, 2019);
-	}
-
-	@Override
-	protected void invalidateDto(SeasonDto dto) {
-		dto.setYear(2000);
-	}
-
-	@Override
-	protected void modifyDto(SeasonDto dto) {
-		dto.setYear(2019);
-	}
-
-	@Override
-	protected Class<SeasonDto> getDtoType() {
-		return SeasonDto.class;
-	}
-
-	@Override
-	protected Class<SeasonDto[]> getArrayType() {
-		return SeasonDto[].class;
-	}
+	private SeasonTestHelper testHelper = new SeasonTestHelper();
 
 	@Override
 	protected String getPath() {
@@ -78,25 +41,15 @@ public class SeasonRestControllerIntegrationTest extends BaseRestControllerInteg
 	}
 
 	@Override
-	protected Optional<List<String>> getInvalidProperties() {
-		List<String> invalidProperties = new ArrayList<>();
-		invalidProperties.add("year");
-		
-		return Optional.of(invalidProperties);
+	protected DtoTestHelper<SeasonDto> getDtoTestHelper() {
+		return testHelper;
 	}
 
 	@Test
 	public void findCurrent() {
 		SeasonDto season = getRestTemplate().getForObject(PATH_SEASONS_CURRENT, SeasonDto.class);
 
-		assertThat(season, is(getDtoList().get(1)));
+		assertThat(season, is(testHelper.getDtoList().get(1)));
 	}
 
-	@Override
-	protected Optional<List<String>> getDuplicatedProperties() {
-		List<String> duplicatedProperties = new ArrayList<>();
-		duplicatedProperties.add("year");
-		
-		return Optional.of(duplicatedProperties);
-	}
 }

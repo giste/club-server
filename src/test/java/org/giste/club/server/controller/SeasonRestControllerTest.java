@@ -9,17 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import org.giste.club.common.dto.SeasonDto;
+import org.giste.club.common.dto.SeasonTestHelper;
 import org.giste.club.server.service.SeasonService;
 import org.giste.spring.rest.server.controller.BaseRestControllerTest;
+import org.giste.util.dto.DtoTestHelper;
 import org.giste.util.service.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +34,8 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	@Autowired
 	private MockMvc mvc;
 
+	private SeasonTestHelper testHelper = new SeasonTestHelper();
+
 	@MockBean
 	private SeasonService seasonService;
 
@@ -54,50 +50,13 @@ public class SeasonRestControllerTest extends BaseRestControllerTest<SeasonDto> 
 	}
 
 	@Override
-	protected SeasonDto getNewDto() {
-		return new SeasonDto(1L, 2017);
-	}
-
-	@Override
-	protected void invalidateDto(SeasonDto dto) {
-		dto.setYear(2000);
-	}
-
-	@Override
 	protected String getPath() {
 		return PATH_SEASONS;
 	}
 
 	@Override
-	protected Class<SeasonDto> getDtoType() {
-		return SeasonDto.class;
-	}
-
-	@Override
-	protected Optional<List<String>> getInvalidProperties() {
-		List<String> invalidProperties = new ArrayList<>();
-
-		invalidProperties.add("year");
-
-		return Optional.of(invalidProperties);
-	}
-
-	@Override
-	protected Map<String, Object> getPropertiesToCheck(SeasonDto dto) {
-		Map<String, Object> properties = new HashMap<>();
-
-		properties.put("year", dto.getYear());
-
-		return properties;
-	}
-
-	@Override
-	protected Optional<Set<String>> getDuplicatedProperties() {
-		Set<String> duplicatedProperties = new HashSet<>();
-
-		duplicatedProperties.add("year");
-
-		return Optional.of(duplicatedProperties);
+	protected DtoTestHelper<SeasonDto> getDtoTestHelper() {
+		return testHelper;
 	}
 
 	@Test
